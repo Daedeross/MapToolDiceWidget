@@ -1,0 +1,14 @@
+{
+  "contents": [
+    "events.json",
+    "library.json",
+    "LICENSE",
+    "mts_properties.json",
+    "README.md",
+    "library"
+  ],
+  "name": "DiceWidget",
+  "webApps": [
+    "overlay/roll"
+  ]
+}

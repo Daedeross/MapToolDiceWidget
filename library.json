@@ -1,0 +1,14 @@
+{
+    "name": "Dice Widget",
+    "version": "0.1.0",
+    "website": "daedeross.github.io",
+    "gitUrl": "github.com/Daedeross/https://github.com/Daedeross/MapToolDiceWidget",
+    "authors": [ "Bryan C. Jones" ],
+    "license": "MIT",
+    "namespace": "daedeross.roll",
+    "description": "Dice rolling overlay widget. Can be configured to use a variety of dice, call any macro, and use custom icons.",
+    "shortDescription": "Simple, configurable, dice rolling overlay widget.",
+    "allowsUriAccess": true,
+    "readMeFile": "README.md",
+    "licenseFile": "LICENCE"
+  }

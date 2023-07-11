@@ -1,0 +1,127 @@
+@use "icons";
+@import "dice.scss";
+
+:root {
+    --dice-color: black;
+    --dice-color-hover: darkgray;
+    --toolbar-left: 10px;
+    --icon-gear: #{icons.$icon-gear-9};
+    --icon-d4:   #{icons.$icon-d4};
+    --icon-d6:   #{icons.$icon-d6};
+    --icon-d8:   #{icons.$icon-d8};
+    --icon-d10:  #{icons.$icon-d10};
+    --icon-d12:  #{icons.$icon-d12};
+    --icon-d20:  #{icons.$icon-d20};
+
+    --button-size: 50px;
+    --button-radius: 25px;
+
+    --toolbar-bottom: 10px;
+    --toolbar-top: initial;
+    --toolbar-left: 10px;
+    --toolbar-right: initial;
+
+    --dropdown-bottom: 50px;
+    --dropdown-top: initial;
+    --dropdown-left: initial;
+    --dropdown-right: initial;
+}
+
+.dice-container {
+    width: 100%;
+    height: 100%;
+}
+
+.dice-rolling-panel {
+    top: 0;
+    position: fixed;
+    z-index: 57000;
+    pointer-events: none;
+    width: 100%;
+    height: 100%;
+    &__container {
+        width: 100%;
+        height: 100%;
+    }
+    .dice-toolbar {
+        position: fixed;
+        z-index: 1;
+        bottom: var(--toolbar-bottom);
+        top: var(--toolbar-top);
+        left: var(--toolbar-left);
+        right: var(--toolbar-right);
+        pointer-events: all;
+    }
+}
+
+.dice-toolbar {
+    font-family: "Roboto";
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 50px;
+    border-radius: 25px;
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, .6);
+    cursor: pointer;
+    background-color: var(--dice-color)
+}
+
+.dice-die-button {
+    width: var(--button-size);
+    height: var(--button-size);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: var(--button-radius);
+    background: #182026;
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, .6);
+    margin: 5px 0;
+    position: relative;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    cursor: pointer
+}
+
+.dice-icon-die--gear {
+    mask-image: var(--icon-gear);
+    -webkit-mask-image: var(--icon-gear);
+    //background-image: var(--icon-gear);
+}
+
+.settings-modal {
+    display: "flex";
+    justify-content: "center";
+    align-items: "center";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.settings-panel {
+    max-width: 500px;
+    max-height: 500px;
+    padding: 12px;
+    border-color: black;
+    border-width: medium;
+    border-style: solid;
+    border-radius: 12px;
+}
+
+.settings-panel label {
+    margin: 6px;
+}
+
+.settings-panel th, td {
+    padding: 3px;
+}
+
+.settings-panel input[type="number"] {
+    max-width: 50px;
+}
+
+.text-align-right {
+    text-align: right;
+}
