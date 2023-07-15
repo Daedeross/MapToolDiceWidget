@@ -16,7 +16,7 @@ export interface RollArgs {
     highIsGood: boolean;
 }
 
-export const executeRoll = createAsyncThunk<void, unknown, { state: RootState }>(
+export const executeRoll = createAsyncThunk<void, void, { state: RootState }>(
     'roll/execute',
     async (arg: unknown, { getState, dispatch }) => {
         const state = getState();
@@ -38,7 +38,7 @@ export const executeRoll = createAsyncThunk<void, unknown, { state: RootState }>
             ? makeMacroLinkFromUri(state.settings.macroURI, state.settings.macroOutput, args, TARGET)
             : makeMacroLink(state.settings.macro, state.settings.macroOutput, args, TARGET, state.settings.library);
 
-        console.log(uri);
+        //console.log(uri);
         executeUri(uri);
 
         dispatch(rollActions.reset);

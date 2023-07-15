@@ -11,9 +11,10 @@
     [h: count = json.get(die, "count")]
     [h, if(count != 0), code: {
         [h: sides = json.get(die, "sides")]
-        [h: expression = expression + strformat("%+d%d", count, sides)]
+        [h: expression = expression + strformat("%+dd%d", count, sides)]
     }]
 }]
+[h: expression = replace(expression, "^\\+", "")]
 [h, if(modifier != 0): expression = expression + strformat("%+d", modifier)]
 [h: results = "[]"]
 [h: bestIndex = -1]
@@ -22,11 +23,10 @@
     [h: result = eval(expression)]
     [h: assert(isNumber(result), "invalid dice expression")]
     [h: results = json.append(results, result)]
-    [h, if((takeHighest && result > best) || (!takeHighest && result < best), code : {
+    [h, if((takeHighest && result > best) || (!takeHighest && result < best)), code : {
         [h: best = result]
         [h: bestIndex = i]
     }]
 }]
-
 [r: strformat("Rolls <b>%{expression}</b> and gets: <b title='%{expression}'>%{result}</b>")]
-[g: strformat("('%{expression}' -> %{result}"))]
+[g: strformat("<br>('%{expression}' -> %{result})"))]

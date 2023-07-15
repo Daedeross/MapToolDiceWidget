@@ -1,10 +1,11 @@
-import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import type { EntityId, EntityState, PayloadAction, Update } from '@reduxjs/toolkit';
+import { createEntityAdapter, createSlice, isAnyOf } from '@reduxjs/toolkit';
+import type { AnyAction, EntityId, EntityState, PayloadAction, Update } from '@reduxjs/toolkit';
 
 import { MacroOutput } from '../../app/linker';
 import { RootState } from '../../app/store';
 import { setStyleVariable } from '../../app/utils';
 import { ButtonProperties, DieConfig, Position, SettingsDto } from './settings-model';
+import { defaultTo, filter, isEmpty, isNil } from 'lodash';
 
 const LIB_NAMESPACE = 'daedeross.roll';
 const DEFAULT_ROLL_MACRO = 'executeRoll';
@@ -44,6 +45,10 @@ const initialState: SettingsState = {
     macroOutput: 'all'
 };
 
+const isSettingsAction = (action: AnyAction) => {
+    return action.type.startsWith(settingsSlice.name);
+}
+
 export const settingsSlice = createSlice({
     name: 'settings',
     initialState,
@@ -51,6 +56,7 @@ export const settingsSlice = createSlice({
         setSettings: (state: SettingsState, action: PayloadAction<SettingsDto>) => {
             state.position = action.payload.position;
             state.buttonProperties = action.payload.buttonProperties;
+            state.highIsGood = action.payload.highIsGood;
             dieConfigAdapter.setAll(state.availableDice, action.payload.availableDice);
             state.macro = action.payload.macro;
             state.library = action.payload.library;
@@ -59,6 +65,24 @@ export const settingsSlice = createSlice({
         setPosition: (state: SettingsState, action: PayloadAction<Position>) => {
             state.position = action.payload;
             setPositionCss(action.payload, state.buttonProperties);
+        },
+        setHighIsGood: (state: SettingsState, action: PayloadAction<boolean>) => {
+            state.highIsGood = action.payload;
+        },
+        setMacroName: (state: SettingsState, action: PayloadAction<string | null | undefined>) => {
+            state.macro = defaultTo(action.payload, DEFAULT_ROLL_MACRO);
+            if (isEmpty(state.macro)) {
+                state.macro = DEFAULT_ROLL_MACRO;
+            }
+        },
+        setLibraryName: (state: SettingsState, action: PayloadAction<string | null | undefined>) => {
+            state.library = defaultTo(action.payload, LIB_NAMESPACE);
+            if (isEmpty(state.library)) {
+                state.library = LIB_NAMESPACE;
+            }
+        },
+        setMacroOutput: (state: SettingsState, action: PayloadAction<MacroOutput>) => {
+            state.macroOutput = action.payload;
         },
         updateConfig: (state: SettingsState, action: PayloadAction<Update<DieConfig>>) => {
             dieConfigAdapter.updateOne(state.availableDice, action.payload);
@@ -114,6 +138,18 @@ function setPositionCss(position: Position, buttonProperties: ButtonProperties) 
     }
 }
 
+export function extractDto(state: SettingsState): SettingsDto {
+    return {
+        position: state.position,
+        highIsGood: state.highIsGood,
+        macro: state.macro,
+        library: state.library,
+        macroURI: state.macroURI,
+        buttonProperties: state.buttonProperties,
+        availableDice: filter(Object.values(state.availableDice.entities), obj => isNil(obj)) as DieConfig[]
+    }
+}
+
 export const settingsActions = { ...settingsSlice.actions }
 
 const adapter_selectors = dieConfigAdapter.getSelectors((state: RootState) => state.settings.availableDice);
@@ -124,6 +160,9 @@ export const settingsSelectors = {
     settings: (state: RootState) => state.settings,
     position: (state: RootState) => state.settings.position,
     highIsGood: (state: RootState) => state.settings.highIsGood,
+    macroName: (state: RootState) => state.settings.macro,
+    libraryName: (state: RootState) => state.settings.library,
+    macroOutput: (state: RootState) => state.settings.macroOutput,
     buttonProperties: (state: RootState) => state.settings.buttonProperties
 }
 

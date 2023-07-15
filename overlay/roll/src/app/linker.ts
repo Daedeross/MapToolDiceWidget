@@ -1,17 +1,11 @@
 import { has, startsWith } from 'lodash';
-import { dieExpression } from '../features/rolls/rolls-slice';
 
 const NAKED_DIE = /(?<!\d)d/ig;
 const LINKER_ID = 'linker';
 const LIB_NAMESPACE = 'daedeross.roll';
 
-export type MacroOutput = 'self'
-    | 'gm'
-    | 'all'
-    | 'none'
-    | 'gm-self'
-    | 'self'
-    | 'list';
+export const MacroOutputs = [ 'self', 'gm', 'all', 'none', 'gm-self', 'list' ];
+export type MacroOutput = typeof MacroOutputs[number];
 
 export function makeMacroLink(macroName: string, display: MacroOutput, args: any, target: string, lib_name: string = LIB_NAMESPACE, cachelib = false) {
     if (display == 'list' && !has(args, 'mlOutputList')) {
@@ -25,7 +19,7 @@ export function makeMacroLink(macroName: string, display: MacroOutput, args: any
     else {
         stringArgs = args;
     }
-    
+
     return `macro://${macroName}@lib:${lib_name}/${display}/${(target || 'impersonated')}?${cachelib ? '' : 'cachelib=false&'}${encodeURIComponent(stringArgs)}`;
 }
 

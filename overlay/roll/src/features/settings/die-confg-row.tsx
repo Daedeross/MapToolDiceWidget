@@ -1,5 +1,5 @@
 import { EntityId } from "@reduxjs/toolkit";
-import { clamp, defaultTo, isNil, toInteger } from "lodash";
+import { clamp, defaultTo, isEmpty, isNil, toInteger } from "lodash";
 
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { settingsActions, settingsSelectors } from "./settings-slice";
@@ -39,7 +39,13 @@ const DieConfigRow: React.FC<Props> = ({ die }) => {
                        onChange={e => updateSides(e.target.value)}></input>
             </td>
             <td>
-                <button onClick={e => dispatch(settingsActions.removeConfig(die))}>-</button>
+                <input type='search' value={config.icon}
+                       onChange={e => update({ icon: isEmpty(e.target.value) ? undefined : e.target.value })} />
+            </td>
+            <td>
+                <button title='Remove Die'
+                        className='config-button config-button-remove'
+                        onClick={e => dispatch(settingsActions.removeConfig(die))}>-</button>
             </td>
         </tr>
     )

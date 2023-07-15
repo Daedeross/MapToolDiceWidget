@@ -15,14 +15,15 @@ export interface ButtonProperties {
 export interface DieConfig {
     id: EntityId;
     sides: number;
-    label?: string | null;
-    icon?: string | null;
-    expression?: string | null;
+    label?: string;
+    icon?: string;
+    expression?: string;
 }
 
 export interface SettingsDto {
     position: Position;
     buttonProperties: ButtonProperties;
+    highIsGood: boolean;
     availableDice: Array<DieConfig>;
     macro: string;
     library: string;

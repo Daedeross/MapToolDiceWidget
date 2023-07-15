@@ -1,0 +1,48 @@
+{
+    "position": 2,
+    "buttonProperties": {
+        "size": 50,
+        "radius": 25
+    },
+    "highIsGood": true,
+    "availableDice": [
+        {
+            "id": "d4",
+            "sides": 4,
+            "label": "d4"
+        },
+        {
+            "id": "d6",
+            "sides": 6,
+            "label": "d6"
+        },
+        {
+            "id": "d8",
+            "sides": 8,
+            "label": "d8"
+        },
+        {
+            "id": "d10",
+            "sides": 10,
+            "label": "d10"
+        },
+        {
+            "id": "d12",
+            "sides": 12,
+            "label": "d12"
+        },
+        {
+            "id": "d20",
+            "sides": 20,
+            "label": "d20"
+        },
+        {
+            "id": "d100",
+            "sides": 100,
+            "label": "d100"
+        }
+    ],
+    "macro": "executeRoll",
+    "library": "daedeross.roll",
+    "macroOutput": "all"
+}

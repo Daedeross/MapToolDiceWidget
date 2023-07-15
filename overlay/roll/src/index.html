@@ -11,7 +11,7 @@
     <a id="linker" class="visually-hidden"></a>
     <% for (var chunk in htmlWebpackPlugin.files.js) { %><script src="<%= htmlWebpackPlugin.files.js[chunk] %>?cachelib=false"></script><% } %>
     <script>
-      function updateFrameState(x) { mothershipJS.pushUpdate(x) }
+      function updateSettings(x) { mtRollsJS.pushUpdate(x); }
     </script>
   </body>
 </html>

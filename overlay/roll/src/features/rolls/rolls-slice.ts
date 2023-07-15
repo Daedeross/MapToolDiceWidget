@@ -13,6 +13,7 @@ export interface RollState {
     dice: EntityState<DieState>;
     modifier: number;
     advantage: number;
+    rollable: boolean;
 }
 
 export const dieStateAdapter = createEntityAdapter<DieState>();
@@ -20,7 +21,8 @@ export const dieStateAdapter = createEntityAdapter<DieState>();
 const initialState: RollState = {
     dice: dieStateAdapter.getInitialState(),
     modifier: 0,
-    advantage: 0
+    advantage: 0,
+    rollable: false
 }
 
 export const dieExpression = (value: any, index: any) => {
@@ -53,18 +55,21 @@ export const rollSlice = createSlice({
             var die = get(state.dice.entities, action.payload, { id: action.payload, count: 0 });
             die.count++;
             dieStateAdapter.setOne(state.dice, die);
+            state.rollable = true;
         },
         removeDie: (state: RollState, action: PayloadAction<EntityId>) => {
             var die = get(state.dice.entities, action.payload, { id: action.payload, count: 0 });
             die.count--;
-            if (die.count <= 0) {
+            if (die.count == 0) {
                 dieStateAdapter.removeOne(state.dice, action.payload);
             } else {
                 dieStateAdapter.setOne(state.dice, die);
             }
+            state.rollable = state.dice.ids.length > 0;
         },
         clearDice: (state: RollState, action: PayloadAction) => {
             dieStateAdapter.removeAll(state.dice);
+            state.rollable = false;
         },
         setModifier: (state: RollState, action: PayloadAction<number>) => {
             state.modifier = action.payload;
@@ -74,7 +79,6 @@ export const rollSlice = createSlice({
         }
     }
 });
-
 
 export const rollActions = { ...rollSlice.actions };
 
@@ -90,6 +94,7 @@ export const rollSelectors = {
     selectModifier: (state: RootState) => selectRoll(state).modifier,
     selectAdvantage: (state: RootState) => selectRoll(state).advantage,
     selectIsAnyDice: (state: RootState) => selectRoll(state).dice.ids.length > 0,
+    selectRollable: (state: RootState) => selectRoll(state).rollable
 }
 
 export default rollSlice.reducer;

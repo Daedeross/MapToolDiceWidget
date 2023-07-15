@@ -90,6 +90,15 @@
     //background-image: var(--icon-gear);
 }
 
+.modal-overlay {
+    position: 'fixed';
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.75);
+}
+
 .settings-modal {
     display: "flex";
     justify-content: "center";
@@ -101,8 +110,7 @@
 }
 
 .settings-panel {
-    max-width: 500px;
-    max-height: 500px;
+    background-color: whitesmoke;
     padding: 12px;
     border-color: black;
     border-width: medium;
@@ -124,4 +132,19 @@
 
 .text-align-right {
     text-align: right;
+}
+
+.config-button {
+    width: 24px;
+    color: white;
+    text-align: center;
+    border-radius: 4px;
+}
+
+.config-button-add {
+    background-color: green;
+}
+
+.config-button-remove {
+    background-color: darkred;
 }
