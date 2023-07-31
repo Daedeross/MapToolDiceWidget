@@ -15,6 +15,8 @@ interface Props {
     die: EntityId;
 }
 
+const POLYHEDRALS = [ 'd4', 'd6', 'd8', 'd10', 'd12', 'd20', 'd100'];
+
 const DieButton: React.FC<Props> = ({ die }) => {
     const [buttons, setButtons] = useState(0);
     const config = useAppSelector(settingsSelectors.dieSelectorById(die));
@@ -66,6 +68,11 @@ const DieButton: React.FC<Props> = ({ die }) => {
         maskImage: defaultTo(config?.icon, 'initial')
     }
 
+    let className = 'dice-icon-die';
+    if (POLYHEDRALS.includes(die.toString())) {
+        className += `dice-icon-die--${die}`;
+    }
+
     return (
         <div className='dice-die-button' data-dice={die}
              onMouseUp={e => onMouseUp(e.button)}
@@ -74,7 +81,7 @@ const DieButton: React.FC<Props> = ({ die }) => {
             //  onClick={e => handleClick(e.button)}
             //  onClickCapture={e => handleClick(e.button)}
              >
-            <span className={`dice-icon-die dice-icon-die--${die}`} style={style}>
+            <span className={className} style={style}>
             </span>
             {count ? <div className="dice-die-button__count">{count}</div> : undefined}
             <div className='dice-die-button__tooltip'>

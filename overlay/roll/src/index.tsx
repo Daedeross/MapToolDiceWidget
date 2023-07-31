@@ -16,9 +16,6 @@ const container = document.getElementById('root');
 if (!container) throw new Error('Failed to find the root element');
 const root = createRoot(container);
 
-// const FETCH_URI = "lib://daedeross.roll/macro/getSettings";
-// const FETCH_URI = "macro:getSettings@this";
-// const FETCH_URI = "macro:getSettings@daedeross.roll";
 const FETCH_URI = "macro:getSettings@lib:daedeross.roll";
 
 function App() {
@@ -26,7 +23,7 @@ function App() {
 
     useEffect(() => {
         fetch(FETCH_URI, {method: 'POST' })
-            .then(//r => console.log("R: " + r),
+            .then(
                 (response) => response.json()
                     .then(dto => dispatch(settingsActions.setSettings(dto as SettingsDto))),
                 (error) => console.log("<ERROR>" + error + "</ERROR>")
