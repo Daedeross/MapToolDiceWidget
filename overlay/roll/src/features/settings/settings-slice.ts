@@ -64,7 +64,7 @@ export const settingsSlice = createSlice({
         },
         setPosition: (state: SettingsState, action: PayloadAction<Position>) => {
             state.position = action.payload;
-            setPositionCss(action.payload, state.buttonProperties);
+            setCssVariables(action.payload, state.buttonProperties);
         },
         setHighIsGood: (state: SettingsState, action: PayloadAction<boolean>) => {
             state.highIsGood = action.payload;
@@ -84,6 +84,10 @@ export const settingsSlice = createSlice({
         setMacroOutput: (state: SettingsState, action: PayloadAction<MacroOutput>) => {
             state.macroOutput = action.payload;
         },
+        setButtonProperties: (state: SettingsState, action: PayloadAction<ButtonProperties>) => {
+            state.buttonProperties = action.payload;
+            setCssVariables(state.position, state.buttonProperties);
+        },
         updateConfig: (state: SettingsState, action: PayloadAction<Update<DieConfig>>) => {
             dieConfigAdapter.updateOne(state.availableDice, action.payload);
         },
@@ -96,8 +100,11 @@ export const settingsSlice = createSlice({
     }
 });
 
-function setPositionCss(position: Position, buttonProperties: ButtonProperties) {
+function setCssVariables(position: Position, buttonProperties: ButtonProperties) {
     const buttonSize = `${buttonProperties.size}px`;
+    const buttonRadius = `${buttonProperties.radius}px`;
+    setStyleVariable('--button-size', buttonSize);
+    setStyleVariable('--button-radius', buttonRadius);
     switch (position) {
         case Position.TopLeft:
             setStyleVariable('--toolbar-left', TOOLBAR_MARGIN);
@@ -107,6 +114,7 @@ function setPositionCss(position: Position, buttonProperties: ButtonProperties) 
 
             setStyleVariable('--dropdown-top', buttonSize);
             setStyleVariable('--dropdown-bottom', INITIAL);
+            setStyleVariable('--roll-button-radius', `0px ${buttonRadius} ${buttonRadius} 0px`);
             break;
         case Position.TopRight:
             setStyleVariable('--toolbar-left', INITIAL);
@@ -116,6 +124,7 @@ function setPositionCss(position: Position, buttonProperties: ButtonProperties) 
 
             setStyleVariable('--dropdown-top', buttonSize);
             setStyleVariable('--dropdown-bottom', INITIAL);
+            setStyleVariable('--roll-button-radius', `${buttonRadius} 0px 0px ${buttonRadius}`);
             break;
         case Position.BottomLeft:
             setStyleVariable('--toolbar-left', TOOLBAR_MARGIN);
@@ -125,6 +134,7 @@ function setPositionCss(position: Position, buttonProperties: ButtonProperties) 
 
             setStyleVariable('--dropdown-top', INITIAL);
             setStyleVariable('--dropdown-bottom', buttonSize);
+            setStyleVariable('--roll-button-radius', `0px ${buttonRadius} ${buttonRadius} 0px`);
             break;
         case Position.BottomRight:
             setStyleVariable('--toolbar-left', INITIAL);
@@ -134,6 +144,7 @@ function setPositionCss(position: Position, buttonProperties: ButtonProperties) 
 
             setStyleVariable('--dropdown-top', INITIAL);
             setStyleVariable('--dropdown-bottom', buttonSize);
+            setStyleVariable('--roll-button-radius', `${buttonRadius} 0px 0px ${buttonRadius}`);
             break;
     }
 }
