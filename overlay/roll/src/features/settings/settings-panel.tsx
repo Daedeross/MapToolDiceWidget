@@ -1,4 +1,5 @@
 import { ReactElement } from "react";
+import { flow, toInteger } from "lodash";
 
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { settingsActions, settingsSelectors } from "./settings-slice";
@@ -12,6 +13,7 @@ function SettingsPanel(): ReactElement {
     const macroName = useAppSelector(settingsSelectors.macroName);
     const libraryName = useAppSelector(settingsSelectors.libraryName);
     const macroOutput = useAppSelector(settingsSelectors.macroOutput);
+    const buttonSettings = useAppSelector(settingsSelectors.buttonProperties);
 
     const dispatch = useAppDispatch();
 
@@ -56,6 +58,14 @@ function SettingsPanel(): ReactElement {
                                     value={macroOutput} onChange={e => handleOutputChange(e.target.value)}>
                                 {outputOptions}
                             </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label>Buttons</label></td>
+                        <td><label htmlFor="buttonSizeInput">Size</label> <input type="number" id="buttonSizeInput"
+                                   value={buttonSettings.size} onChange={e => dispatch(settingsActions.setButtonProperties({...buttonSettings, size: toInteger(e.target.value)}))} />
+                            <label htmlFor="buttonRadiusInput">Radius</label> <input type="number" id="buttonRadiusInput"
+                                   value={buttonSettings.radius} onChange={e => dispatch(settingsActions.setButtonProperties({...buttonSettings, radius: toInteger(e.target.value)}))} />
                         </td>
                     </tr>
                 </tbody>

@@ -15,6 +15,7 @@
 
     --button-size: 50px;
     --button-radius: 25px;
+    --roll-button-radius: 0px 50px 50px 0px;
 
     --toolbar-bottom: 10px;
     --toolbar-top: initial;
@@ -59,8 +60,9 @@
     position: relative;
     display: flex;
     align-items: center;
-    height: 50px;
-    border-radius: 25px;
+    height: var(--button-size);
+    width: var(--button-size);
+    border-radius: var(--button-radius);
     box-shadow: 2px 2px 6px rgba(0, 0, 0, .6);
     cursor: pointer;
     background-color: var(--dice-color)
