@@ -51,10 +51,10 @@ function Rolls(): ReactElement {
         buttons.reverse();
     }
 
-    const toolbarClasses = `dice-toolbar${rollable ? ' rollable' : ''}`;
+    //const toolbarClasses = `roll-toolbar${rollable ? ' rollable' : ''}`;
 
     return (
-        <div className='dice-rolling-panel'>
+        <div className='roll-overlay-container'>
             <ReactModal className='settings-modal'
                         style={{overlay: {
                             position: 'fixed',
@@ -70,7 +70,20 @@ function Rolls(): ReactElement {
                         appElement={appElement ? appElement : undefined}>
                 <SettingsPanel />
             </ReactModal>
-            <div className={toolbarClasses}>
+            <div className='roll-toolbar'>
+                <div className={'die-button roll-toolbar-button' + (selected ? '--selected' : '')} onClick={e => handleRootClick()} >
+                    <span></span>
+                </div>
+                <div className={'roll-toolbar-target-group' + (rollable && selected ? ' rollable' : '') }>
+                    <button>
+                        <p>ROLL</p>
+                    </button>
+                </div>
+                <div className={'roll-dropdown' + (selected ? '--selected' : '')}>
+                    {buttons}
+                </div>
+            </div>
+            {/* <div className={toolbarClasses}>
                 <div className={`dice-toolbar__dropdown ${selected ? 'dice-toolbar__dropdown-selected' : ''}`}>
                     <div className='dice-toolbar__dropdown-die' onClick={e => handleRootClick()}>
                         <span className='dice-icon-die dice-icon-die--d20'>
@@ -90,7 +103,7 @@ function Rolls(): ReactElement {
                         {buttons}
                     </div>
                 </div>
-            </div>
+            </div> */}
         </div>
     );
 }

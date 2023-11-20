@@ -115,6 +115,7 @@ function setCssVariables(position: Position, buttonProperties: ButtonProperties)
             setStyleVariable('--dropdown-top', buttonSize);
             setStyleVariable('--dropdown-bottom', INITIAL);
             setStyleVariable('--roll-button-radius', `0px ${buttonRadius} ${buttonRadius} 0px`);
+            setStyleVariable('--target-direction', 'ltr');
             break;
         case Position.TopRight:
             setStyleVariable('--toolbar-left', INITIAL);
@@ -125,6 +126,7 @@ function setCssVariables(position: Position, buttonProperties: ButtonProperties)
             setStyleVariable('--dropdown-top', buttonSize);
             setStyleVariable('--dropdown-bottom', INITIAL);
             setStyleVariable('--roll-button-radius', `${buttonRadius} 0px 0px ${buttonRadius}`);
+            setStyleVariable('--target-direction', 'rtl');
             break;
         case Position.BottomLeft:
             setStyleVariable('--toolbar-left', TOOLBAR_MARGIN);
@@ -135,6 +137,7 @@ function setCssVariables(position: Position, buttonProperties: ButtonProperties)
             setStyleVariable('--dropdown-top', INITIAL);
             setStyleVariable('--dropdown-bottom', buttonSize);
             setStyleVariable('--roll-button-radius', `0px ${buttonRadius} ${buttonRadius} 0px`);
+            setStyleVariable('--target-direction', 'ltr');
             break;
         case Position.BottomRight:
             setStyleVariable('--toolbar-left', INITIAL);
@@ -145,6 +148,7 @@ function setCssVariables(position: Position, buttonProperties: ButtonProperties)
             setStyleVariable('--dropdown-top', INITIAL);
             setStyleVariable('--dropdown-bottom', buttonSize);
             setStyleVariable('--roll-button-radius', `${buttonRadius} 0px 0px ${buttonRadius}`);
+            setStyleVariable('--target-direction', 'rtl');
             break;
     }
 }

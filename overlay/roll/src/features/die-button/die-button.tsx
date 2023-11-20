@@ -74,7 +74,7 @@ const DieButton: React.FC<Props> = ({ die }) => {
     }
 
     return (
-        <div className='dice-die-button' data-dice={die}
+        <div className='dice-die-button die-button' data-dice={die}
              onMouseUp={e => onMouseUp(e.button)}
              onMouseDown={e => onMouseDown(e.button)}
              onContextMenu={e => { e.preventDefault(); return false; }}
@@ -83,9 +83,9 @@ const DieButton: React.FC<Props> = ({ die }) => {
              >
             <span className={className} style={style}>
             </span>
-            {count ? <div className="dice-die-button__count">{count}</div> : undefined}
-            <div className='dice-die-button__tooltip'>
-                <div className='dice-die-button__tooltip__pip' />
+            {count ? <div className="die-button__count">{count}</div> : undefined}
+            <div className='die-button__tooltip'>
+                <div className='die-button__tooltip__pip' />
                 {defaultTo(config?.label, `d${config?.sides}`)}
             </div>
         </div>
