@@ -80,7 +80,7 @@
     border-radius: var(--button-radius);
     transform: initial;
     transition-property: background-image, background-size, transform, width, height, margin;
-    transition-duration: 250ms, 250ms, 500ms, 500ms, 500ms, 500ms ;
+    transition-duration: 0ms, 0ms, 500ms, 500ms, 500ms, 500ms ;
     transition-delay: 500ms, 500ms, 0s, 0s, 0s, 0s;
 
     &--selected {
@@ -93,8 +93,8 @@
         border-radius: calc(var(--button-radius) - var(--icon-margin));
         transform: rotate(45deg);
         transition-property: background-image, background-size, transform, width, height, margin;
-        transition-duration: 250ms, 250ms, 500ms, 500ms, 500ms, 500ms;
-        transition-delay: 0ms, 0ms, 250ms, 250ms, 250ms, 250ms;
+        transition-duration: 0ms, 0ms, 500ms, 500ms, 500ms, 500ms;
+        //transition-delay: 0ms, 0ms, 250ms, 250ms, 250ms, 250ms;
     }
 }
 
@@ -129,25 +129,25 @@
 
         display: block;
     }
-}
 
-.dice-die-button {
-    width: var(--button-size);
-    height: var(--button-size);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: var(--button-radius);
-    background: #182026;
-    color: #8a9ba8;
-    box-shadow: 2px 2px 6px rgba(0, 0, 0, .6);
-    margin: 5px 0;
-    position: relative;
-    user-select: none;
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
-    cursor: pointer
+    .die-button {
+        width: var(--button-size);
+        height: var(--button-size);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: var(--button-radius);
+        background: #182026;
+        color: #8a9ba8;
+        box-shadow: 2px 2px 6px rgba(0, 0, 0, .6);
+        margin: 5px 0;
+        position: relative;
+        user-select: none;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        cursor: pointer
+    }
 }
 
 .die-button__count {
@@ -182,7 +182,7 @@
     text-transform: uppercase
 }
 
-.dice-die-button__tooltip__pip {
+.die-button__tooltip__pip {
     position: absolute;
     left: -5px;
     width: 8px;
@@ -194,10 +194,28 @@
     transform: rotate(45deg)
 }
 
-@media(hover: hover) {
-    .dice-die-button:hover .dice-die-button__tooltip {
-        display: flex
-    }
+.dropdown-die-button:hover .die-button__tooltip {
+    display: flex;
+}
+
+.die-button-icon {
+    display: inline-block;
+    width: calc(var(--button-size) - 2 * var(--icon-margin));
+    height: calc(var(--button-size) - 2 * var(--icon-margin));
+    margin: var(--icon-margin);
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.settings-icon {
+    // mask-image: var(--icon-gear);
+    // -webkit-mask-image: var(--icon-gear);
+    background-image: var(--icon-gear);
+}
+
+.die-button img {
+    height: calc(var(--button-size) - 2 * var(--icon-margin));
+    width: calc(var(--button-size) - 2 * var(--icon-margin));
 }
 
 .modal-overlay {

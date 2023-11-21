@@ -74,15 +74,15 @@ const DieButton: React.FC<Props> = ({ die }) => {
     }
 
     return (
-        <div className='dice-die-button die-button' data-dice={die}
+        <div className='dropdown-die-button die-button' data-dice={die}
              onMouseUp={e => onMouseUp(e.button)}
              onMouseDown={e => onMouseDown(e.button)}
              onContextMenu={e => { e.preventDefault(); return false; }}
             //  onClick={e => handleClick(e.button)}
             //  onClickCapture={e => handleClick(e.button)}
              >
-            <span className={className} style={style}>
-            </span>
+            <img className={className} style={style} src='lib://daedeross.roll/img/d10.png' >
+            </img>
             {count ? <div className="die-button__count">{count}</div> : undefined}
             <div className='die-button__tooltip'>
                 <div className='die-button__tooltip__pip' />

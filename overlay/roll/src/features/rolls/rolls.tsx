@@ -41,10 +41,10 @@ function Rolls(): ReactElement {
     });
     buttons
         .unshift(
-            <div className='dice-die-button' key='settings-button'
+            <div className='die-button' key='settings-button'
                  style={{backgroundColor:'lightgray'}}
                  onClick={e => setSettingsOpen(!settingsOpen)}>
-                <span className={`dice-icon-die dice-icon-die--gear`} />
+                <span className='die-button-icon settings-icon' />
             </div>);
 
     if (position == Position.TopLeft || position == Position.TopRight) {
@@ -66,7 +66,7 @@ function Rolls(): ReactElement {
                           }}}
                         onRequestClose={e => setSettingsOpen(false)}
                         shouldCloseOnOverlayClick={true}
-                        isOpen={settingsOpen}                        
+                        isOpen={settingsOpen}
                         appElement={appElement ? appElement : undefined}>
                 <SettingsPanel />
             </ReactModal>
