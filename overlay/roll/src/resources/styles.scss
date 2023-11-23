@@ -276,3 +276,47 @@
 .config-button-remove {
     background-color: darkred;
 }
+
+.die-row-text {
+    min-width: 50px;
+    width: 128px;
+    &.label {
+        width: 48px;
+    }
+}
+
+$ex-active-color: #555555;
+$ex-normal-color: #aaaaaa;
+
+button.expander {
+    width: 100%;
+    padding: 8px;
+    color: black;
+    background-color: $ex-normal-color;
+    border: 2px solid black;
+    text-align: left;
+    &:hover {
+        background-color: $ex-active-color;
+        color: white;
+    }
+    &::after {
+        content: '\02795';
+        font-size: 13px;
+        margin-left: 5px;
+        float: right;
+    }
+    &.active {
+        background-color: $ex-active-color;
+        color: white;
+        &:hover {
+            background-color: $ex-normal-color;
+            color: black;
+        }
+        &::after {
+            content: '\2796';
+            font-size: 13px;
+            margin-left: 5px;
+            float: right;
+        }
+    }
+}

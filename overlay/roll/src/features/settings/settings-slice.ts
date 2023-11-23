@@ -16,7 +16,7 @@ const INITIAL = 'initial';
 const polyhedrals: Array<DieConfig> = [4, 6, 8, 10, 12, 20]
     .map(num => {
         const id = `d${num}`;
-        return { id, sides: num, label: id, icon: `--icon-${id}` };
+        return { id, sides: num, count: 1, label: id }//, icon: `--icon-${id}` };
     });
 
 export interface SettingsState {

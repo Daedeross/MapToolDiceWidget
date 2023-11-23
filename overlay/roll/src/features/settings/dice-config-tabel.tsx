@@ -15,7 +15,7 @@ function DieConfigTable() {
             <table>
                 <thead>
                     <tr>
-                        <th>Id</th><th>Label</th><th>Sides</th>
+                        <th>Id</th><th>Label</th><th>Sides</th><th>Count</th><th>Icon</th><th>Args</th>
                     </tr>
                 </thead>
                 <tbody>

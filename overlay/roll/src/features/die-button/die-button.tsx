@@ -1,4 +1,4 @@
-import { defaultTo } from 'lodash';
+import { defaultTo, isNil } from 'lodash';
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { rollActions, rollSelectors } from '../rolls/rolls-slice';
@@ -72,6 +72,10 @@ const DieButton: React.FC<Props> = ({ die }) => {
     if (POLYHEDRALS.includes(die.toString())) {
         className += `dice-icon-die--${die}`;
     }
+    
+    const content = isNil(config?.icon)
+        ? <span>{defaultTo(config?.label, config?.id)}</span>
+        : <img src={config?.icon} />
 
     return (
         <div className='dropdown-die-button die-button' data-dice={die}
@@ -81,8 +85,9 @@ const DieButton: React.FC<Props> = ({ die }) => {
             //  onClick={e => handleClick(e.button)}
             //  onClickCapture={e => handleClick(e.button)}
              >
-            <img className={className} style={style} src='lib://daedeross.roll/img/d10.png' >
-            </img>
+            {content}
+            {/* <img className={className} style={style} src='lib://daedeross.roll/img/d10.png' >
+            </img> */}
             {count ? <div className="die-button__count">{count}</div> : undefined}
             <div className='die-button__tooltip'>
                 <div className='die-button__tooltip__pip' />

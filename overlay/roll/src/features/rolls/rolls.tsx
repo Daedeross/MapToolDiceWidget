@@ -57,12 +57,12 @@ function Rolls(): ReactElement {
         <div className='roll-overlay-container'>
             <ReactModal className='settings-modal'
                         style={{overlay: {
-                            position: 'fixed',
-                            top: 0,
-                            left: 0,
-                            right: 0,
-                            bottom: 0,
-                            backgroundColor: 'rgba(155, 155, 155, 0.5)'
+                                position: 'fixed',
+                                top: 0,
+                                left: 0,
+                                right: 0,
+                                bottom: 0,
+                                backgroundColor: 'rgba(155, 155, 155, 0.5)'
                           }}}
                         onRequestClose={e => setSettingsOpen(false)}
                         shouldCloseOnOverlayClick={true}
@@ -75,7 +75,7 @@ function Rolls(): ReactElement {
                     <span></span>
                 </div>
                 <div className={'roll-toolbar-target-group' + (rollable && selected ? ' rollable' : '') }>
-                    <button>
+                    <button onClick={e => handleRollClick()}>
                         <p>ROLL</p>
                     </button>
                 </div>

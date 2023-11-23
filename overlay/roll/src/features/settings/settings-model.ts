@@ -15,6 +15,7 @@ export interface ButtonProperties {
 export interface DieConfig {
     id: EntityId;
     sides: number;
+    count: number;
     label?: string;
     icon?: string;
     expression?: string;

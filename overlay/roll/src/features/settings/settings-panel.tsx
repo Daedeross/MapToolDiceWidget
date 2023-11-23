@@ -1,4 +1,4 @@
-import { ReactElement } from "react";
+import { ReactElement, useState } from "react";
 import { flow, toInteger } from "lodash";
 
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
@@ -8,6 +8,8 @@ import DieConfigTable from "./dice-config-tabel";
 import { MacroOutput, MacroOutputs } from "../../app/linker";
 
 function SettingsPanel(): ReactElement {
+    const [active, setActive] = useState(false);
+
     const position = useAppSelector(settingsSelectors.position);
     const highIsGood = useAppSelector(settingsSelectors.highIsGood);
     const macroName = useAppSelector(settingsSelectors.macroName);
@@ -38,38 +40,40 @@ function SettingsPanel(): ReactElement {
                 checked={highIsGood} onChange={e => dispatch(settingsActions.setHighIsGood(!highIsGood))}
                 title="If checked, advantageous re-rolls take the highest result and disadvantageous re-rolls take the lowest. And vice-versa when unchecked." />
             <DieConfigTable />
-            <h3>Advanced Settings</h3>
-            <table>
-                <tbody>
-                    <tr>
-                        <td><label htmlFor="macroNameInput">Macro Name</label></td>
-                        <td><input type="search" id="macroNameInput"
-                            value={macroName} onChange={e => dispatch(settingsActions.setMacroName(e.target.value))} /></td>
-                    </tr>
-                    <tr>
-                        <td><label htmlFor="libraryNameInput">Library Name</label></td>
-                        <td><input type="search" id="libraryNameInput"
-                            value={libraryName} onChange={e => dispatch(settingsActions.setLibraryName(e.target.value))} /></td>
-                    </tr>
-                    <tr>
-                        <td><label htmlFor="macroOutputInput">Macro Output</label></td>
-                        <td>
-                            <select id="macroOutputInput"
-                                    value={macroOutput} onChange={e => handleOutputChange(e.target.value)}>
-                                {outputOptions}
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><label>Buttons</label></td>
-                        <td><label htmlFor="buttonSizeInput">Size</label> <input type="number" id="buttonSizeInput"
-                                   value={buttonSettings.size} onChange={e => dispatch(settingsActions.setButtonProperties({...buttonSettings, size: toInteger(e.target.value)}))} />
-                            <label htmlFor="buttonRadiusInput">Radius</label> <input type="number" id="buttonRadiusInput"
-                                   value={buttonSettings.radius} onChange={e => dispatch(settingsActions.setButtonProperties({...buttonSettings, radius: toInteger(e.target.value)}))} />
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <button className={'expander' + (active ? ' active' : '')} onClick={e => setActive(!active)}>Advanced Settings</button>
+            <div className="expander" style={{display: active ? 'block' : 'none'}}>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td><label htmlFor="macroNameInput">Macro Name</label></td>
+                            <td><input type="search" id="macroNameInput"
+                                value={macroName} onChange={e => dispatch(settingsActions.setMacroName(e.target.value))} /></td>
+                        </tr>
+                        <tr>
+                            <td><label htmlFor="libraryNameInput">Library Name</label></td>
+                            <td><input type="search" id="libraryNameInput"
+                                value={libraryName} onChange={e => dispatch(settingsActions.setLibraryName(e.target.value))} /></td>
+                        </tr>
+                        <tr>
+                            <td><label htmlFor="macroOutputInput">Macro Output</label></td>
+                            <td>
+                                <select id="macroOutputInput"
+                                        value={macroOutput} onChange={e => handleOutputChange(e.target.value)}>
+                                    {outputOptions}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label>Buttons</label></td>
+                            <td><label htmlFor="buttonSizeInput">Size</label> <input type="number" id="buttonSizeInput"
+                                    value={buttonSettings.size} onChange={e => dispatch(settingsActions.setButtonProperties({...buttonSettings, size: toInteger(e.target.value)}))} />
+                                <label htmlFor="buttonRadiusInput">Radius</label> <input type="number" id="buttonRadiusInput"
+                                    value={buttonSettings.radius} onChange={e => dispatch(settingsActions.setButtonProperties({...buttonSettings, radius: toInteger(e.target.value)}))} />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 }
