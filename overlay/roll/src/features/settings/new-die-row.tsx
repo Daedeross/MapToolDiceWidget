@@ -20,7 +20,7 @@ const NewDieRow = () => {
             id,
             label,
             sides,
-            count: 1,
+            count: count,
             icon: isEmpty(icon) ? undefined : icon,
             expression: isEmpty(expression) ? undefined : expression
         }));
@@ -51,7 +51,7 @@ const NewDieRow = () => {
                    onChange={e => setSides(toInteger(e.target.value))}></input>
         </td>
         <td>
-            <input type='number' value={sides}
+            <input type='number' value={count}
                    min={1} max={MAX_INT_32}
                    onChange={e => setCount(toInteger(e.target.value))}></input>
         </td>
