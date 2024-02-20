@@ -1,4 +1,6 @@
-import { useAppSelector } from "../../app/hooks";
+import { defaultTo } from "lodash";
+
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { settingsSelectors } from "./settings-slice";
 import DieConfigRow from "./die-confg-row";
 import NewDieRow from "./new-die-row";
@@ -15,7 +17,7 @@ function DieConfigTable() {
             <table>
                 <thead>
                     <tr>
-                        <th>Id</th><th>Label</th><th>Sides</th>
+                        <th>Id</th><th>Label</th><th>Sides</th><th>Count</th><th>Icon</th><th>Args</th>
                     </tr>
                 </thead>
                 <tbody>

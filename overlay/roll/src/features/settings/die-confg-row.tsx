@@ -26,11 +26,17 @@ const DieConfigRow: React.FC<Props> = ({ die }) => {
         update({ sides });
     }
 
+    const updateCount = (value: string) => {
+        const count = clamp(toInteger(value), 1, MAX_INT_32);
+        update({ count });
+    }
+
     return (
         <tr>
             <td className="text-align-right">{die}</td>
             <td>
                 <input type='text' value={defaultTo(config.label, '')}
+                       className='die-row-text label'
                        onChange={e => update({ label: e.target.value})}></input>
             </td>
             <td>
@@ -39,8 +45,21 @@ const DieConfigRow: React.FC<Props> = ({ die }) => {
                        onChange={e => updateSides(e.target.value)}></input>
             </td>
             <td>
-                <input type='search' value={config.icon}
+                <input type='number' value={config.count}
+                       min={1} max={MAX_INT_32}
+                       onChange={e => updateCount(e.target.value)} />
+            </td>
+            <td>
+                <input type='search' value={defaultTo(config.icon, '')}
+                       className='die-row-text'
+                       placeholder="Custom Icon URI..."
                        onChange={e => update({ icon: isEmpty(e.target.value) ? undefined : e.target.value })} />
+            </td>
+            <td>
+                <input type='search' value={defaultTo(config.expression, '')}
+                       className='die-row-text'
+                       placeholder="Extra args..."
+                       onChange={e => update({ expression: isEmpty(e.target.value) ? undefined : e.target.value })} />
             </td>
             <td>
                 <button title='Remove Die'

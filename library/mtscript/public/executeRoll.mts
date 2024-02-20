@@ -2,7 +2,8 @@
 [h: dice = json.get(macroArgs, "dice")]
 [h: modifier = json.get(macroArgs, "modifier")]
 [h: advantage = json.get(macroArgs, "advantage")]
-[h: highIsGood = json.get(macroArgs, "highIsGood")]
+[h: sHighIsGood = json.get(macroArgs, "highIsGood")]
+[h: highIsGood = if(sHighIsGood == "true", true, false)]
 
 [h: times = abs(advantage) + 1)]
 [h: takeHighest = if(advantage > 0, highIsGood, !highIsGood)]
@@ -28,5 +29,15 @@
         [h: bestIndex = i]
     }]
 }]
-[r: strformat("Rolls <b>%{expression}</b> and gets: <b title='%{expression}'>%{result}</b>")]
-[g: strformat("<br>('%{expression}' -> %{result})"))]
+
+[h, if(advantage != 0), code: {
+    [h, if(advantage > 0):
+        advText = if(advantage == 1, " <i>with Advantage</i>", strformat(" <i>with Advantage×%{advantage}</i>"));
+        advText = if(advantage == -1, " <i>with Disadvantage</i>", strformat(" <i>with Disadvantage×%d</i>", abs(advantage)))
+    ]
+}; {
+    [h: advText = ""]
+}]
+
+[r: strformat("Rolls <b>%{expression}</b>%{advText} and gets: <b title='%{expression}'>%{best}</b>")]
+[g, r: strformat("<br>('%{expression}' -> %{best}) [%{results}]"))]

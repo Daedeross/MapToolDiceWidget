@@ -4,7 +4,7 @@ import type { AnyAction, EntityId, EntityState, PayloadAction, Update } from '@r
 import { MacroOutput } from '../../app/linker';
 import { RootState } from '../../app/store';
 import { setStyleVariable } from '../../app/utils';
-import { ButtonProperties, DieConfig, Position, SettingsDto } from './settings-model';
+import { ButtonProperties, DieConfig, Position, PseudoDieConfig, SettingsDto } from './settings-model';
 import { defaultTo, filter, isEmpty, isNil } from 'lodash';
 
 const LIB_NAMESPACE = 'daedeross.roll';
@@ -12,11 +12,16 @@ const DEFAULT_ROLL_MACRO = 'executeRoll';
 const DEFAULT_MARGIN = 10;
 const TOOLBAR_MARGIN = `${DEFAULT_MARGIN}px`;
 const INITIAL = 'initial';
+const RESOURCE_URI =
+    // (process.env.NODE_ENV == 'development')
+    // ? "./resources/"
+    // :
+    `lib://${LIB_NAMESPACE}/`;
 
 const polyhedrals: Array<DieConfig> = [4, 6, 8, 10, 12, 20]
     .map(num => {
         const id = `d${num}`;
-        return { id, sides: num, label: id, icon: `--icon-${id}` };
+        return { id, sides: num, count: 1, label: id, icon: `${RESOURCE_URI}img/${id}.png` };
     });
 
 export interface SettingsState {
@@ -24,6 +29,8 @@ export interface SettingsState {
     buttonProperties: ButtonProperties;
     availableDice: EntityState<DieConfig>;
     highIsGood: boolean;
+    advantage: PseudoDieConfig;
+    modifier: PseudoDieConfig;
     macro: string;
     library: string;
     macroURI?: string | null;
@@ -39,6 +46,14 @@ const initialState: SettingsState = {
         radius: 25
     },
     highIsGood: true,
+    modifier : {
+        label: "+/-",
+        show: true
+    },
+    advantage : {
+        label: "Adv.",
+        show: true
+    },
     availableDice: dieConfigAdapter.setAll(dieConfigAdapter.getInitialState(), polyhedrals),
     macro: DEFAULT_ROLL_MACRO,
     library: LIB_NAMESPACE,
@@ -56,6 +71,8 @@ export const settingsSlice = createSlice({
         setSettings: (state: SettingsState, action: PayloadAction<SettingsDto>) => {
             state.position = action.payload.position;
             state.buttonProperties = action.payload.buttonProperties;
+            state.advantage = action.payload.advantage;
+            state.modifier = action.payload.modifier;
             state.highIsGood = action.payload.highIsGood;
             dieConfigAdapter.setAll(state.availableDice, action.payload.availableDice);
             state.macro = action.payload.macro;
@@ -64,10 +81,16 @@ export const settingsSlice = createSlice({
         },
         setPosition: (state: SettingsState, action: PayloadAction<Position>) => {
             state.position = action.payload;
-            setPositionCss(action.payload, state.buttonProperties);
+            setCssVariables(action.payload, state.buttonProperties);
+        },
+        setAdvantage: (state: SettingsState, action: PayloadAction<PseudoDieConfig>) => {
+            state.advantage = action.payload;
         },
         setHighIsGood: (state: SettingsState, action: PayloadAction<boolean>) => {
             state.highIsGood = action.payload;
+        },
+        setModifier: (state: SettingsState, action: PayloadAction<PseudoDieConfig>) => {
+            state.modifier = action.payload;
         },
         setMacroName: (state: SettingsState, action: PayloadAction<string | null | undefined>) => {
             state.macro = defaultTo(action.payload, DEFAULT_ROLL_MACRO);
@@ -84,6 +107,10 @@ export const settingsSlice = createSlice({
         setMacroOutput: (state: SettingsState, action: PayloadAction<MacroOutput>) => {
             state.macroOutput = action.payload;
         },
+        setButtonProperties: (state: SettingsState, action: PayloadAction<ButtonProperties>) => {
+            state.buttonProperties = action.payload;
+            setCssVariables(state.position, state.buttonProperties);
+        },
         updateConfig: (state: SettingsState, action: PayloadAction<Update<DieConfig>>) => {
             dieConfigAdapter.updateOne(state.availableDice, action.payload);
         },
@@ -92,12 +119,15 @@ export const settingsSlice = createSlice({
         },
         removeConfig: (state: SettingsState, action: PayloadAction<EntityId>) => {
             dieConfigAdapter.removeOne(state.availableDice, action.payload);
-        }
+        },
     }
 });
 
-function setPositionCss(position: Position, buttonProperties: ButtonProperties) {
+function setCssVariables(position: Position, buttonProperties: ButtonProperties) {
     const buttonSize = `${buttonProperties.size}px`;
+    const buttonRadius = `${buttonProperties.radius}px`;
+    setStyleVariable('--button-size', buttonSize);
+    setStyleVariable('--button-radius', buttonRadius);
     switch (position) {
         case Position.TopLeft:
             setStyleVariable('--toolbar-left', TOOLBAR_MARGIN);
@@ -107,6 +137,8 @@ function setPositionCss(position: Position, buttonProperties: ButtonProperties) 
 
             setStyleVariable('--dropdown-top', buttonSize);
             setStyleVariable('--dropdown-bottom', INITIAL);
+            setStyleVariable('--roll-button-radius', `0px ${buttonRadius} ${buttonRadius} 0px`);
+            setStyleVariable('--target-direction', 'ltr');
             break;
         case Position.TopRight:
             setStyleVariable('--toolbar-left', INITIAL);
@@ -116,6 +148,8 @@ function setPositionCss(position: Position, buttonProperties: ButtonProperties) 
 
             setStyleVariable('--dropdown-top', buttonSize);
             setStyleVariable('--dropdown-bottom', INITIAL);
+            setStyleVariable('--roll-button-radius', `${buttonRadius} 0px 0px ${buttonRadius}`);
+            setStyleVariable('--target-direction', 'rtl');
             break;
         case Position.BottomLeft:
             setStyleVariable('--toolbar-left', TOOLBAR_MARGIN);
@@ -125,6 +159,8 @@ function setPositionCss(position: Position, buttonProperties: ButtonProperties) 
 
             setStyleVariable('--dropdown-top', INITIAL);
             setStyleVariable('--dropdown-bottom', buttonSize);
+            setStyleVariable('--roll-button-radius', `0px ${buttonRadius} ${buttonRadius} 0px`);
+            setStyleVariable('--target-direction', 'ltr');
             break;
         case Position.BottomRight:
             setStyleVariable('--toolbar-left', INITIAL);
@@ -134,6 +170,8 @@ function setPositionCss(position: Position, buttonProperties: ButtonProperties) 
 
             setStyleVariable('--dropdown-top', INITIAL);
             setStyleVariable('--dropdown-bottom', buttonSize);
+            setStyleVariable('--roll-button-radius', `${buttonRadius} 0px 0px ${buttonRadius}`);
+            setStyleVariable('--target-direction', 'rtl');
             break;
     }
 }
@@ -141,7 +179,9 @@ function setPositionCss(position: Position, buttonProperties: ButtonProperties) 
 export function extractDto(state: SettingsState): SettingsDto {
     return {
         position: state.position,
+        advantage: state.advantage,
         highIsGood: state.highIsGood,
+        modifier: state.modifier,
         macro: state.macro,
         library: state.library,
         macroURI: state.macroURI,
@@ -160,6 +200,8 @@ export const settingsSelectors = {
     settings: (state: RootState) => state.settings,
     position: (state: RootState) => state.settings.position,
     highIsGood: (state: RootState) => state.settings.highIsGood,
+    modifier: (state: RootState) => state.settings.modifier,
+    advantage: (state: RootState) => state.settings.advantage,
     macroName: (state: RootState) => state.settings.macro,
     libraryName: (state: RootState) => state.settings.library,
     macroOutput: (state: RootState) => state.settings.macroOutput,
