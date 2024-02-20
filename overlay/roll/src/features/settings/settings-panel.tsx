@@ -1,11 +1,12 @@
 import { ReactElement, useState } from "react";
-import { flow, toInteger } from "lodash";
+import { toInteger } from "lodash";
 
+import { MacroOutput, MacroOutputs } from "../../app/linker";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { settingsActions, settingsSelectors } from "./settings-slice";
 import { Position } from "./settings-model";
-import DieConfigTable from "./dice-config-tabel";
-import { MacroOutput, MacroOutputs } from "../../app/linker";
+import DieConfigTable from "./dice-config-table";
+import PseudoDieConfigTable from "./psudo-die-config-table";
 
 function SettingsPanel(): ReactElement {
     const [active, setActive] = useState(false);
@@ -39,7 +40,12 @@ function SettingsPanel(): ReactElement {
             <input type="checkbox" id="highIsGood" value="highIsGood"
                 checked={highIsGood} onChange={e => dispatch(settingsActions.setHighIsGood(!highIsGood))}
                 title="If checked, advantageous re-rolls take the highest result and disadvantageous re-rolls take the lowest. And vice-versa when unchecked." />
+            {/* <label htmlFor="showModifier" title="If checked, show extra button for adding/subtrcting flat values to the roll (e.g. the '+3' in 2d6+3).">Show Modifier Button</label>
+            <input type="checkbox" id="showModifier" value="showModifier"
+                checked={showModifier} onChange={e => dispatch(settingsActions.setShowModifier(!showModifier))}
+                title="If checked, show extra button for adding/subtrcting flat values to the roll (e.g. the '+3' in 2d6+3)." /> */}
             <DieConfigTable />
+            <PseudoDieConfigTable />
             <button className={'expander' + (active ? ' active' : '')} onClick={e => setActive(!active)}>Advanced Settings</button>
             <div className="expander" style={{display: active ? 'block' : 'none'}}>
                 <table>

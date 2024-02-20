@@ -21,9 +21,17 @@ export interface DieConfig {
     expression?: string;
 }
 
+export interface PseudoDieConfig {
+    show: boolean;
+    label?: string;
+    icon?: string;
+}
+
 export interface SettingsDto {
     position: Position;
     buttonProperties: ButtonProperties;
+    advantage: PseudoDieConfig;
+    modifier: PseudoDieConfig;
     highIsGood: boolean;
     availableDice: Array<DieConfig>;
     macro: string;

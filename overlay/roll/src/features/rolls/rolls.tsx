@@ -1,13 +1,14 @@
 import { ReactElement, useState } from 'react';
 import ReactModal from 'react-modal';
 
-import DieButton from '../die-button/die-button';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { executeRoll } from '../../app/execute-roll';
 import { settingsSelectors } from '../settings/settings-slice';
 import SettingsPanel from '../settings/settings-panel';
 import { Position } from '../settings/settings-model';
+import PseudoDieButton from '../die-button/pseudo-die-button';
+import DieButton from '../die-button/die-button';
 import { rollActions, rollSelectors } from './rolls-slice';
-import { executeRoll } from '../../app/execute-roll';
 
 function Rolls(): ReactElement {
     const [selected, setSelected] = useState(false);
@@ -39,10 +40,25 @@ function Rolls(): ReactElement {
         dice.map((id) => {
             return <DieButton die={id} key={id} />;
     });
+    // Add Modifier button
+    buttons
+        .push(<PseudoDieButton
+                key="mod"
+                settingSelector={settingsSelectors.modifier}
+                valueSelector={rollSelectors.selectModifier}
+                setter={rollActions.setModifier} />);
+    // Add Advantage Button
+    buttons
+        .push(<PseudoDieButton
+                key="adv"
+                settingSelector={settingsSelectors.advantage}
+                valueSelector={rollSelectors.selectAdvantage}
+                setter={rollActions.setAdvantage} />);
+    // Add settings button
     buttons
         .unshift(
             <div className='die-button' key='settings-button'
-                 style={{backgroundColor:'lightgray'}}
+                 style={{backgroundColor:'#c4cdd4'}}
                  onClick={e => setSettingsOpen(!settingsOpen)}>
                 <span className='die-button-icon settings-icon' />
             </div>);
@@ -50,8 +66,6 @@ function Rolls(): ReactElement {
     if (position == Position.TopLeft || position == Position.TopRight) {
         buttons.reverse();
     }
-
-    //const toolbarClasses = `roll-toolbar${rollable ? ' rollable' : ''}`;
 
     return (
         <div className='roll-overlay-container'>
@@ -83,27 +97,6 @@ function Rolls(): ReactElement {
                     {buttons}
                 </div>
             </div>
-            {/* <div className={toolbarClasses}>
-                <div className={`dice-toolbar__dropdown ${selected ? 'dice-toolbar__dropdown-selected' : ''}`}>
-                    <div className='dice-toolbar__dropdown-die' onClick={e => handleRootClick()}>
-                        <span className='dice-icon-die dice-icon-die--d20'>
-                        </span>
-                    </div>
-                    <div role="group" className="dice-toolbar__target"
-                         hidden={dice.length == 0}
-                         aria-label="roll actions">
-                        <button tabIndex={0} type="button"
-                                onClick={e => handleRollClick()}>
-                            <div>
-                                <p className="dice-toolbar__target-roll">Roll</p>
-                            </div>
-                        </button>
-                    </div>
-                    <div className='dice-toolbar__dropdown-top' style={{display: selected ? 'block' : 'none'}}>
-                        {buttons}
-                    </div>
-                </div>
-            </div> */}
         </div>
     );
 }

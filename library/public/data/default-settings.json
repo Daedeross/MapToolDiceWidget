@@ -5,41 +5,58 @@
         "radius": 25
     },
     "highIsGood": true,
+    "modifier" : {
+        "show" : true,
+        "label" : "+/-",
+        "icon" : "lib://daedeross.roll/img/plus_minus.png"
+    },
+    "advantage": {
+        "show" : true,
+        "label" : "Adv/DisAdv",
+        "icon" : "lib://daedeross.roll/img/up_down.png"
+    },
     "availableDice": [
         {
             "id": "d4",
             "sides": 4,
-            "label": "d4"
+            "label": "d4",
+            "icon": "lib://daedeross.roll/img/d4.png"
         },
         {
             "id": "d6",
             "sides": 6,
-            "label": "d6"
+            "label": "d6",
+            "icon": "lib://daedeross.roll/img/d6.png"
         },
         {
             "id": "d8",
             "sides": 8,
-            "label": "d8"
+            "label": "d8",
+            "icon": "lib://daedeross.roll/img/d8.png"
         },
         {
             "id": "d10",
             "sides": 10,
-            "label": "d10"
+            "label": "d10",
+            "icon": "lib://daedeross.roll/img/d10.png"
         },
         {
             "id": "d12",
             "sides": 12,
-            "label": "d12"
+            "label": "d12",
+            "icon": "lib://daedeross.roll/img/d12.png"
         },
         {
             "id": "d20",
             "sides": 20,
-            "label": "d20"
+            "label": "d20",
+            "icon": "lib://daedeross.roll/img/d20.png"
         },
         {
             "id": "d100",
             "sides": 100,
-            "label": "d100"
+            "label": "d100",
+            "icon": "lib://daedeross.roll/img/d100.png"
         }
     ],
     "macro": "executeRoll",

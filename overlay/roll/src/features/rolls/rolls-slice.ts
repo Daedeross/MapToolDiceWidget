@@ -54,7 +54,11 @@ export const rollSlice = createSlice({
         addDie: (state: RollState, action: PayloadAction<EntityId>) => {
             var die = get(state.dice.entities, action.payload, { id: action.payload, count: 0 });
             die.count++;
-            dieStateAdapter.setOne(state.dice, die);
+            if (die.count == 0) {
+                dieStateAdapter.removeOne(state.dice, action.payload);
+            } else {
+                dieStateAdapter.setOne(state.dice, die);
+            }
             state.rollable = true;
         },
         removeDie: (state: RollState, action: PayloadAction<EntityId>) => {
@@ -67,8 +71,18 @@ export const rollSlice = createSlice({
             }
             state.rollable = state.dice.ids.length > 0;
         },
+        setDie: (state: RollState, action: PayloadAction<DieState>) => {
+            if (action.payload.count == 0) {
+                dieStateAdapter.removeOne(state.dice, action.payload.id);
+            } else {
+                dieStateAdapter.setOne(state.dice, action.payload);
+            }
+            state.rollable = state.dice.ids.length > 0;
+        },
         clearDice: (state: RollState, action: PayloadAction) => {
             dieStateAdapter.removeAll(state.dice);
+            state.modifier = 0;
+            state.advantage = 0;
             state.rollable = false;
         },
         setModifier: (state: RollState, action: PayloadAction<number>) => {

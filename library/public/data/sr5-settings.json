@@ -1,0 +1,27 @@
+{
+    "position": 2,
+    "buttonProperties": {
+        "size": 50,
+        "radius": 25
+    },
+    "highIsGood": true,
+    "modifier" : {
+        "show" : false
+    },
+    "advantage": {
+        "show" : true,
+        "label" : "Rule of 6",
+        "icon" : "lib://daedeross.roll/img/sr-ro6.png"
+    },
+    "availableDice": [
+        {
+            "id": "sr5",
+            "sides": 6,
+            "label": "SR5",
+            "icon": "lib://daedeross.roll/img/sr-die.png"
+        }
+    ],
+    "macro": "executeSR5Roll",
+    "library": "daedeross.roll",
+    "macroOutput": "all"
+}
