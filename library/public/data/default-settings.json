@@ -12,7 +12,7 @@
     },
     "advantage": {
         "show" : true,
-        "label" : "Adv/DisAdv",
+        "label" : "A/D",
         "icon" : "lib://daedeross.roll/img/up_down.png"
     },
     "availableDice": [
