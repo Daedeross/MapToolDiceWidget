@@ -7,4 +7,4 @@
 ]
 
 [h: data.setData("addon:", "daedeross.roll", "currentSettings", settings)]
-[h, macro("pushSettings@this")]
+[h, macro("pushSettings@this"):""]

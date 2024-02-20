@@ -33,7 +33,7 @@ function Rolls(): ReactElement {
         setSelected(!selected);
         setSettingsOpen(false);
         dispatch(executeRoll());
-        dispatch(rollActions.clearDice());
+        //dispatch(rollActions.clearDice());
     }
 
     const buttons = 

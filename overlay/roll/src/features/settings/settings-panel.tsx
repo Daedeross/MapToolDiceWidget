@@ -1,5 +1,5 @@
 import { ReactElement, useState } from "react";
-import { toInteger } from "lodash";
+import { isEmpty, isNil, toInteger } from "lodash";
 
 import { MacroOutput, MacroOutputs } from "../../app/linker";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
@@ -7,9 +7,11 @@ import { settingsActions, settingsSelectors } from "./settings-slice";
 import { Position } from "./settings-model";
 import DieConfigTable from "./dice-config-table";
 import PseudoDieConfigTable from "./psudo-die-config-table";
+import { loadSampleSettings } from "../../app/load-sample-settings";
 
 function SettingsPanel(): ReactElement {
     const [active, setActive] = useState(false);
+    const [sample, setSample] = useState<string| undefined>();
 
     const position = useAppSelector(settingsSelectors.position);
     const highIsGood = useAppSelector(settingsSelectors.highIsGood);
@@ -30,7 +32,7 @@ function SettingsPanel(): ReactElement {
         <div className="settings-panel">
             <label htmlFor="position">Widget Position</label>
             <select name="position" id="settings-position-select" value={position}
-                onChange={e => dispatch(settingsActions.setPosition(Number(e.target.value)))}>
+                    onChange={e => dispatch(settingsActions.setPosition(Number(e.target.value)))}>
                 <option value={Position.BottomLeft}>BottomLeft</option>
                 <option value={Position.TopLeft}>TopLeft</option>
                 <option value={Position.TopRight}>TopRight</option>
@@ -38,12 +40,8 @@ function SettingsPanel(): ReactElement {
             </select>
             <label htmlFor="highIsGood" title="If checked, advantageous re-rolls take the highest result and disadvantageous re-rolls take the lowest. And vice-versa when unchecked.">Advantage High</label>
             <input type="checkbox" id="highIsGood" value="highIsGood"
-                checked={highIsGood} onChange={e => dispatch(settingsActions.setHighIsGood(!highIsGood))}
-                title="If checked, advantageous re-rolls take the highest result and disadvantageous re-rolls take the lowest. And vice-versa when unchecked." />
-            {/* <label htmlFor="showModifier" title="If checked, show extra button for adding/subtrcting flat values to the roll (e.g. the '+3' in 2d6+3).">Show Modifier Button</label>
-            <input type="checkbox" id="showModifier" value="showModifier"
-                checked={showModifier} onChange={e => dispatch(settingsActions.setShowModifier(!showModifier))}
-                title="If checked, show extra button for adding/subtrcting flat values to the roll (e.g. the '+3' in 2d6+3)." /> */}
+                   checked={highIsGood} onChange={e => dispatch(settingsActions.setHighIsGood(!highIsGood))}
+                   title="If checked, advantageous re-rolls take the highest result and disadvantageous re-rolls take the lowest. And vice-versa when unchecked." />
             <DieConfigTable />
             <PseudoDieConfigTable />
             <button className={'expander' + (active ? ' active' : '')} onClick={e => setActive(!active)}>Advanced Settings</button>
@@ -72,9 +70,27 @@ function SettingsPanel(): ReactElement {
                         <tr>
                             <td><label>Buttons</label></td>
                             <td><label htmlFor="buttonSizeInput">Size</label> <input type="number" id="buttonSizeInput"
-                                    value={buttonSettings.size} onChange={e => dispatch(settingsActions.setButtonProperties({...buttonSettings, size: toInteger(e.target.value)}))} />
+                                       value={buttonSettings.size} onChange={e => dispatch(settingsActions.setButtonProperties({...buttonSettings, size: toInteger(e.target.value)}))} />
                                 <label htmlFor="buttonRadiusInput">Radius</label> <input type="number" id="buttonRadiusInput"
                                     value={buttonSettings.radius} onChange={e => dispatch(settingsActions.setButtonProperties({...buttonSettings, radius: toInteger(e.target.value)}))} />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label>Predifined Settings</label></td>
+                            <td>
+                                <label htmlFor="selectSample">Select</label>
+                                <select name="selectSample" id="selectSample" value={sample}
+                                        placeholder="Select Sample"
+                                        onChange={e => setSample(isEmpty(e.target.value) ? undefined : e.target.value)}>
+                                    <option value="">None</option>
+                                    <option value="dnd">Polyhedrals (D&D)</option>
+                                    <option value="sr5">Shadowrun 5e.</option>
+                                </select>
+                            </td>
+                            <td>
+                                <button title="Load predefined setting. This will overwrite the existing settings."
+                                        disabled={isEmpty(sample)}
+                                        onClick={e => dispatch(loadSampleSettings(sample))}>Load Settings</button>
                             </td>
                         </tr>
                     </tbody>
