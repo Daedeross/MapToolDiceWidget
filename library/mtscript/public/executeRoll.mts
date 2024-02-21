@@ -18,14 +18,20 @@
 [h: expression = replace(expression, "^\\+", "")]
 [h, if(modifier != 0): expression = expression + strformat("%+d", modifier)]
 [h: results = "[]"]
+[h: resultTexts = "[]"]
 [h: bestIndex = -1]
+[h: bestText = ""]
 [h: best = if(takeHighest, -2147483647, 2147483647)]
 [h, for(i, 0, times, 1, ""), code: {
-    [h: result = eval(expression)]
+	[h: resultText = evalMacro(strformat("[%{expression}]"))]
+	[h: id = strfind(resultText, "\\x1F(\\d+)\\x1E")]
+    [h: result = number(getGroup(id, 1, 1))]
     [h: assert(isNumber(result), "invalid dice expression")]
     [h: results = json.append(results, result)]
+    [h: resultTexts = json.append(resultTexts, resultText)]
     [h, if((takeHighest && result > best) || (!takeHighest && result < best)), code : {
         [h: best = result]
+        [h: bestText = resultText]
         [h: bestIndex = i]
     }]
 }]
@@ -39,5 +45,11 @@
     [h: advText = ""]
 }]
 
-[r: strformat("Rolls <b>%{expression}</b>%{advText} and gets: <b title='%{expression}'>%{best}</b>")]
+[h: allResultsText = ""]
+[h, for(i, 0, times, 1, ""), code: {
+	[h, if(i == bestIndex): text = strformat("<b>%s</b>", json.get(resultTexts, i)) ; text = strformat("<strike>%s</strike>", json.get(resultTexts, i))]
+	[h: allResultsText = allResultsText + " " + text]
+}]
+
+[r: strformat("Rolls <b>%{expression}</b>%{advText} and gets: %{allResultsText}")]
 [g, r: strformat("<br>('%{expression}' -> %{best}) [%{results}]"))]
