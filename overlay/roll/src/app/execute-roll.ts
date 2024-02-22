@@ -38,7 +38,6 @@ export const executeRoll = createAsyncThunk<void, void, { state: RootState }>(
             ? makeMacroLinkFromUri(state.settings.macroURI, state.settings.macroOutput, args, TARGET)
             : makeMacroLink(state.settings.macro, state.settings.macroOutput, args, TARGET, state.settings.library);
 
-        //console.log(uri);
         executeUri(uri);
 
         dispatch(rollActions.reset);

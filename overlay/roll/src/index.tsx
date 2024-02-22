@@ -5,7 +5,6 @@ import { Provider } from 'react-redux';
 import { store } from './app/store';
 import Rolls from './features/rolls/rolls';
 
-// Importing the Bootstrap CSS
 import './resources/styles.scss';
 import { updateSettings, useAppDispatch } from './app/hooks';
 import { useEffect } from 'react';

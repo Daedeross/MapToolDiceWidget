@@ -80,7 +80,8 @@ export const settingsSlice = createSlice({
             dieConfigAdapter.setAll(state.availableDice, action.payload.global.availableDice);
             state.macro = action.payload.global.macro;
             state.library = action.payload.global.library;
-            state.macroURI = action.payload.global.macroURI;
+            state.macroURI = action.payload.global.macroURI;            
+            setCssVariables(state.position, state.buttonProperties);
         },
         setPosition: (state: SettingsState, action: PayloadAction<Position>) => {
             state.position = action.payload;
@@ -179,6 +180,8 @@ function setCssVariables(position: Position, buttonProperties: ButtonProperties)
     }
 }
 
+const selectAllDiceConfigs = dieConfigAdapter.getSelectors((x: SettingsState) => x.availableDice).selectAll;
+
 export function extractDto(state: SettingsState): SettingsDto {
     return {
         isGM: state.isGM,
@@ -193,7 +196,7 @@ export function extractDto(state: SettingsState): SettingsDto {
             macro: state.macro,
             library: state.library,
             macroURI: state.macroURI,
-            availableDice: filter(Object.values(state.availableDice.entities), obj => isNil(obj)) as DieConfig[]
+            availableDice: filter(Object.values(state.availableDice.entities), obj => !isNil(obj)) as DieConfig[]
         }
     }
 }

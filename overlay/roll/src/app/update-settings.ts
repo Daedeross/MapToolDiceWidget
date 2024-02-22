@@ -7,7 +7,7 @@ import { extractDto, settingsSlice } from '../features/settings/settings-slice';
 import { executeMacroLink } from './linker';
 import { GlobalSettingsDto, UserSettingsDto } from '../features/settings/settings-model';
 
-const GLOBAL_MACRO = 'updateSettings';
+const GLOBAL_MACRO = 'updateGlobalSettings';
 const USER_MACRO = 'updateUserSettings';
 
 export const isStateChanged = (action: Action, currentState: RootState, previousState: RootState) => !isEqual(currentState, previousState);
@@ -42,6 +42,6 @@ const pushGlobalSettings = (lastDto: GlobalSettingsDto, newDto: GlobalSettingsDt
     if (isEmpty(diff)) {
         return;
     }
-
+    
     executeMacroLink(GLOBAL_MACRO, 'none', newDto, 'impersonated');
 }

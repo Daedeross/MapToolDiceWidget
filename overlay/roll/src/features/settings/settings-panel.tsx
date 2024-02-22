@@ -1,5 +1,5 @@
 import { ReactElement, useState } from "react";
-import { isEmpty, isNil, toInteger } from "lodash";
+import { isEmpty, toInteger } from "lodash";
 
 import { MacroOutput, MacroOutputs } from "../../app/linker";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
