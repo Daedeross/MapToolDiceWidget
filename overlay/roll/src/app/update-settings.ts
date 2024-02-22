@@ -5,8 +5,10 @@ import { isEmpty, isEqual } from 'lodash';
 import { RootState } from './store';
 import { extractDto, settingsSlice } from '../features/settings/settings-slice';
 import { executeMacroLink } from './linker';
+import { GlobalSettingsDto, UserSettingsDto } from '../features/settings/settings-model';
 
-const UPDATE_MACRO = 'updateSettings';
+const GLOBAL_MACRO = 'updateSettings';
+const USER_MACRO = 'updateUserSettings';
 
 export const isStateChanged = (action: Action, currentState: RootState, previousState: RootState) => !isEqual(currentState, previousState);
 export const isSettingsChanged = (action: Action, currentState: RootState, previousState: RootState) => {
@@ -20,9 +22,26 @@ export const pushChangesToMapTool = (action: Action, listenerApi: ListenerEffect
     const lastDto = extractDto(lastState.settings);
     const newDto = extractDto(newState.settings);
 
+    pushUserSettings(lastDto.user, newDto.user);
+    if(lastDto.isGM) {
+        pushGlobalSettings(lastDto.global, newDto.global);
+    }
+};
+
+const pushUserSettings = (lastDto: UserSettingsDto, newDto: UserSettingsDto) => {
     const diff = compare(lastDto, newDto);
     if (isEmpty(diff)) {
         return;
     }
-    executeMacroLink(UPDATE_MACRO, 'none', newDto, 'impersonated');
-};
+
+    executeMacroLink(USER_MACRO, 'none', newDto, 'impersonated');
+}
+
+const pushGlobalSettings = (lastDto: GlobalSettingsDto, newDto: GlobalSettingsDto) => {
+    const diff = compare(lastDto, newDto);
+    if (isEmpty(diff)) {
+        return;
+    }
+
+    executeMacroLink(GLOBAL_MACRO, 'none', newDto, 'impersonated');
+}

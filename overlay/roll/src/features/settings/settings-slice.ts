@@ -25,6 +25,7 @@ const polyhedrals: Array<DieConfig> = [4, 6, 8, 10, 12, 20]
     });
 
 export interface SettingsState {
+    isGM: boolean;
     position: Position;
     buttonProperties: ButtonProperties;
     availableDice: EntityState<DieConfig>;
@@ -40,6 +41,7 @@ export interface SettingsState {
 export const dieConfigAdapter = createEntityAdapter<DieConfig>();
 
 const initialState: SettingsState = {
+    isGM: false,
     position: Position.BottomLeft,
     buttonProperties: {
         size: 50,
@@ -69,15 +71,16 @@ export const settingsSlice = createSlice({
     initialState,
     reducers: {
         setSettings: (state: SettingsState, action: PayloadAction<SettingsDto>) => {
-            state.position = action.payload.position;
-            state.buttonProperties = action.payload.buttonProperties;
-            state.advantage = action.payload.advantage;
-            state.modifier = action.payload.modifier;
-            state.highIsGood = action.payload.highIsGood;
-            dieConfigAdapter.setAll(state.availableDice, action.payload.availableDice);
-            state.macro = action.payload.macro;
-            state.library = action.payload.library;
-            state.macroURI = action.payload.macroURI;
+            state.isGM = action.payload.isGM;
+            state.position = action.payload.user.position;
+            state.buttonProperties = action.payload.user.buttonProperties;
+            state.advantage = action.payload.global.advantage;
+            state.modifier = action.payload.global.modifier;
+            state.highIsGood = action.payload.global.highIsGood;
+            dieConfigAdapter.setAll(state.availableDice, action.payload.global.availableDice);
+            state.macro = action.payload.global.macro;
+            state.library = action.payload.global.library;
+            state.macroURI = action.payload.global.macroURI;
         },
         setPosition: (state: SettingsState, action: PayloadAction<Position>) => {
             state.position = action.payload;
@@ -178,15 +181,20 @@ function setCssVariables(position: Position, buttonProperties: ButtonProperties)
 
 export function extractDto(state: SettingsState): SettingsDto {
     return {
-        position: state.position,
-        advantage: state.advantage,
-        highIsGood: state.highIsGood,
-        modifier: state.modifier,
-        macro: state.macro,
-        library: state.library,
-        macroURI: state.macroURI,
-        buttonProperties: state.buttonProperties,
-        availableDice: filter(Object.values(state.availableDice.entities), obj => isNil(obj)) as DieConfig[]
+        isGM: state.isGM,
+        user: {
+            position: state.position,
+            buttonProperties: state.buttonProperties,
+        },
+        global : {
+            advantage: state.advantage,
+            highIsGood: state.highIsGood,
+            modifier: state.modifier,
+            macro: state.macro,
+            library: state.library,
+            macroURI: state.macroURI,
+            availableDice: filter(Object.values(state.availableDice.entities), obj => isNil(obj)) as DieConfig[]
+        }
     }
 }
 
@@ -198,6 +206,7 @@ export const settingsSelectors = {
     ...adapter_selectors,
     dieSelectorById: (id: EntityId) => (state: RootState) => adapter_selectors.selectById(state, id),
     settings: (state: RootState) => state.settings,
+    isGM: (state: RootState) => state.settings.isGM,
     position: (state: RootState) => state.settings.position,
     highIsGood: (state: RootState) => state.settings.highIsGood,
     modifier: (state: RootState) => state.settings.modifier,

@@ -27,9 +27,7 @@ export interface PseudoDieConfig {
     icon?: string;
 }
 
-export interface SettingsDto {
-    position: Position;
-    buttonProperties: ButtonProperties;
+export interface GlobalSettingsDto {
     advantage: PseudoDieConfig;
     modifier: PseudoDieConfig;
     highIsGood: boolean;
@@ -37,4 +35,15 @@ export interface SettingsDto {
     macro: string;
     library: string;
     macroURI?: string | null;
+}
+
+export interface UserSettingsDto {
+    position: Position;
+    buttonProperties: ButtonProperties;
+}
+
+export interface SettingsDto {
+    isGM: boolean;
+    user: UserSettingsDto;
+    global : GlobalSettingsDto;
 }

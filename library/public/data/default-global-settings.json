@@ -1,9 +1,4 @@
 {
-    "position": 2,
-    "buttonProperties": {
-        "size": 50,
-        "radius": 25
-    },
     "highIsGood": true,
     "modifier" : {
         "show" : true,

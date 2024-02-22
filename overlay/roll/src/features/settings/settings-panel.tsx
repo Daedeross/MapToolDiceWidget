@@ -13,6 +13,7 @@ function SettingsPanel(): ReactElement {
     const [active, setActive] = useState(false);
     const [sample, setSample] = useState<string| undefined>();
 
+    const isGM = useAppSelector(settingsSelectors.isGM);
     const position = useAppSelector(settingsSelectors.position);
     const highIsGood = useAppSelector(settingsSelectors.highIsGood);
     const macroName = useAppSelector(settingsSelectors.macroName);
@@ -38,35 +39,19 @@ function SettingsPanel(): ReactElement {
                 <option value={Position.TopRight}>TopRight</option>
                 <option value={Position.BottomRight}>BottomRight</option>
             </select>
-            <label htmlFor="highIsGood" title="If checked, advantageous re-rolls take the highest result and disadvantageous re-rolls take the lowest. And vice-versa when unchecked.">Advantage High</label>
-            <input type="checkbox" id="highIsGood" value="highIsGood"
-                   checked={highIsGood} onChange={e => dispatch(settingsActions.setHighIsGood(!highIsGood))}
-                   title="If checked, advantageous re-rolls take the highest result and disadvantageous re-rolls take the lowest. And vice-versa when unchecked." />
-            <DieConfigTable />
-            <PseudoDieConfigTable />
+            { isGM ? ( <>
+                <label htmlFor="highIsGood" title="If checked, advantageous re-rolls take the highest result and disadvantageous re-rolls take the lowest. And vice-versa when unchecked.">Advantage High</label>
+                <input type="checkbox" id="highIsGood" value="highIsGood"
+                    checked={highIsGood} onChange={e => dispatch(settingsActions.setHighIsGood(!highIsGood))}
+                    title="If checked, advantageous re-rolls take the highest result and disadvantageous re-rolls take the lowest. And vice-versa when unchecked." />
+                <DieConfigTable />
+                <PseudoDieConfigTable />
+            </>
+            ) : undefined }
             <button className={'expander' + (active ? ' active' : '')} onClick={e => setActive(!active)}>Advanced Settings</button>
             <div className="expander" style={{display: active ? 'block' : 'none'}}>
                 <table>
                     <tbody>
-                        <tr>
-                            <td><label htmlFor="macroNameInput">Macro Name</label></td>
-                            <td><input type="search" id="macroNameInput"
-                                value={macroName} onChange={e => dispatch(settingsActions.setMacroName(e.target.value))} /></td>
-                        </tr>
-                        <tr>
-                            <td><label htmlFor="libraryNameInput">Library Name</label></td>
-                            <td><input type="search" id="libraryNameInput"
-                                value={libraryName} onChange={e => dispatch(settingsActions.setLibraryName(e.target.value))} /></td>
-                        </tr>
-                        <tr>
-                            <td><label htmlFor="macroOutputInput">Macro Output</label></td>
-                            <td>
-                                <select id="macroOutputInput"
-                                        value={macroOutput} onChange={e => handleOutputChange(e.target.value)}>
-                                    {outputOptions}
-                                </select>
-                            </td>
-                        </tr>
                         <tr>
                             <td><label>Buttons</label></td>
                             <td><label htmlFor="buttonSizeInput">Size</label> <input type="number" id="buttonSizeInput"
@@ -75,24 +60,46 @@ function SettingsPanel(): ReactElement {
                                     value={buttonSettings.radius} onChange={e => dispatch(settingsActions.setButtonProperties({...buttonSettings, radius: toInteger(e.target.value)}))} />
                             </td>
                         </tr>
-                        <tr>
-                            <td><label>Predifined Settings</label></td>
-                            <td>
-                                <label htmlFor="selectSample">Select</label>
-                                <select name="selectSample" id="selectSample" value={sample}
-                                        placeholder="Select Sample"
-                                        onChange={e => setSample(isEmpty(e.target.value) ? undefined : e.target.value)}>
-                                    <option value="">None</option>
-                                    <option value="dnd">Polyhedrals (D&D)</option>
-                                    <option value="sr5">Shadowrun 5e.</option>
-                                </select>
-                            </td>
-                            <td>
-                                <button title="Load predefined setting. This will overwrite the existing settings."
-                                        disabled={isEmpty(sample)}
-                                        onClick={e => dispatch(loadSampleSettings(sample))}>Load Settings</button>
-                            </td>
-                        </tr>
+                        { isGM ? (
+                        <>
+                            <tr>
+                                <td><label htmlFor="macroNameInput">Macro Name</label></td>
+                                <td><input type="search" id="macroNameInput"
+                                    value={macroName} onChange={e => dispatch(settingsActions.setMacroName(e.target.value))} /></td>
+                            </tr>
+                            <tr>
+                                <td><label htmlFor="libraryNameInput">Library Name</label></td>
+                                <td><input type="search" id="libraryNameInput"
+                                    value={libraryName} onChange={e => dispatch(settingsActions.setLibraryName(e.target.value))} /></td>
+                            </tr>
+                            <tr>
+                                <td><label htmlFor="macroOutputInput">Macro Output</label></td>
+                                <td>
+                                    <select id="macroOutputInput"
+                                            value={macroOutput} onChange={e => handleOutputChange(e.target.value)}>
+                                        {outputOptions}
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label>Predifined Settings</label></td>
+                                <td>
+                                    <label htmlFor="selectSample">Select</label>
+                                    <select name="selectSample" id="selectSample" value={sample}
+                                            placeholder="Select Sample"
+                                            onChange={e => setSample(isEmpty(e.target.value) ? undefined : e.target.value)}>
+                                        <option value="">None</option>
+                                        <option value="dnd">Polyhedrals (D&D)</option>
+                                        <option value="sr5">Shadowrun 5e.</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <button title="Load predefined setting. This will overwrite the existing settings."
+                                            disabled={isEmpty(sample)}
+                                            onClick={e => dispatch(loadSampleSettings(sample))}>Load Settings</button>
+                                </td>
+                            </tr>
+                        </>) : undefined }
                     </tbody>
                 </table>
             </div>

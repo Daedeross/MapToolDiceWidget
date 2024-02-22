@@ -1,2 +1,5 @@
-[h: settings = data.getStaticData("daedeross.roll", "public/data/default-settings.json")]
-[h: data.setData("addon:", "daedeross.roll", "currentSettings", settings)]
+[h: global = data.getStaticData("daedeross.roll", "public/data/default-global-settings.json")]
+[h: data.setData("addon:", "daedeross.roll", "data/current-settings.json", global)]
+[h: user = data.getStaticData("daedeross.roll", "public/data/default-user-settings.json")]
+[h: fileName = strformat("data/%s/user-settings.json", player.getName())]
+[h: data.setData("addon:", "daedeross.roll", fileName, user)]
