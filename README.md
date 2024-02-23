@@ -124,7 +124,7 @@ This table is where you configure what dice buttons show up in the widget and wh
 3. Sides (number): Must be a positive integer. The number of sides per-die.
 4. Count (number): The number of dice to throw per-click.
 5. Icon (uri): URI for the icon button's icon. There are several built-in icons but you can use your own, as long as they are accessable via URI. See the MapTool documentation on lib URIs.
-6. Args (string): NOT IMPLEMENTED. For additional static args you want to pass the the macro for this button.
+6. Args (string): For additional static args you want to pass the the macro for this die (Not used by any of the included configurations).
 
 To add a die, input the desired values into the bottom row and press the green `+` button. All properties except the Id are optional of have a default value. You must enter a new, unique, id to add a row.
 
@@ -167,3 +167,30 @@ Shadowrun only uses one size die, the d6. All dice pools are composed of some nu
 *Note: to keep it simple, I have ignored initiative (which is different than a normal roll in SR) for this example configuration.*
 
 You will notice the Macro Name changed to `executeSR5Roll`. This macro treats the 'advantage' instead as a toggle to inidicate the roll is using the 'Rule of 6'. Under the hood, the dice function called is for the Rule of 6 is `sr5e()` instead of `sr5()`.
+
+#### Macro API
+
+The argument passed to the [defined macro](#macro-name-and-library-name-and-output) is a serialized plain JS object (i.e. a JSON string) that has the following structure:
+
+```js
+{
+  dice: [ // Array of dice ovjects, only dice with a non-zero count are sent.
+    {     // each die has the following fields:
+      id: string,                     // As defined in the settings
+      sides: number,                  // As defined in the settings
+      count: number,                  // The number in the badge next to the die button, not from the config
+      label: string | undefined,      // As defined in the settings
+      icon: string | undefined,       // As defined in the settings
+      expression: string | undefined, // As defined in the settings by the 'Args' column
+    },
+    ...
+  ],
+  modifier: number,     // The flat modifier selected by the user (i.e. the number next to the '+/-' button)
+  advantage: number,    // The level of advantage selected by the user (the 'down/up' button)
+  highIsGood: boolean,  // true if "Advantage High" is checked in the settings, otherwise false
+}
+```
+
+Note about parsing the JSON: Since MapTool reads macro args from the link's query string, you need to remove the `cachelib=false ;` from `macro.args` before you can parse the JSON. The following macro line should do the trick: `[h: macroArgs = trim(decode(replace(macro.args, "cachelib=false ;", "")))]`, then just use `macroArgs` instead in your JSON parsing functions.
+
+Now you can create your own macro to do whatever you want with this information!

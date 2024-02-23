@@ -24,7 +24,7 @@
 [h: best = if(takeHighest, -2147483647, 2147483647)]
 [h, for(i, 0, times, 1, ""), code: {
 	[h: resultText = evalMacro(strformat("[%{expression}]"))]
-	[h: id = strfind(resultText, "\\x1F(\\d+)\\x1E")]
+	[h: id = strfind(resultText, "\\x1F(-?\\d+)\\x1E")]
     [h: result = number(getGroup(id, 1, 1))]
     [h: assert(isNumber(result), "invalid dice expression")]
     [h: results = json.append(results, result)]

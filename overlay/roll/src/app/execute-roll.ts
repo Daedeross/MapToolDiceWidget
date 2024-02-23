@@ -25,7 +25,13 @@ export const executeRoll = createAsyncThunk<void, void, { state: RootState }>(
             rollSelectors.selectAll(state),
             (dieState) => dieState.id,
             settingsSelectors.selectAll(state),
-            (config) => config.id);
+            (config) => config.id,
+            (dieState, config) => {
+                return {
+                    ...config,
+                    ...dieState
+                } as DieState & DieConfig;
+            });
 
         const args: RollArgs = {
             dice,
