@@ -1,4 +1,4 @@
-# MapToolDiceWidget
+# MapTool Dice Widget
 
 Configurable overlay widget for rolling dice in [MapTool](https://github.com/RPTools/maptool).
 
