@@ -1,11 +1,10 @@
-import { defaultTo, isEmpty, isNil } from 'lodash';
+import { defaultTo, isEmpty, max } from 'lodash';
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { rollActions, rollSelectors } from '../rolls/rolls-slice';
 import { EntityId } from '@reduxjs/toolkit';
 import { settingsSelectors } from '../settings/settings-slice';
 import { useState } from 'react';
-import D12 from '../../resources/d4.svg';
 
 const NO_BUTTON = 0;
 const LEFT_BUTTON = 1;
@@ -43,7 +42,8 @@ const DieButton: React.FC<Props> = ({ die }) => {
         const button = e.button;
         const mask = getMask(button);
         const capture = mask & buttons;
-        const increment = (e.ctrlKey ? 2 : 1) * (e.shiftKey ? 5 : 1);
+        const base = max([defaultTo(config?.count, 1), 1]) || 1;
+        const increment = (e.ctrlKey ? 2 : 1) * (e.shiftKey ? 5 : 1) * base;
         const oldCount = defaultTo(count, 0);
         if (capture & LEFT_BUTTON) {
             dispatch(rollActions.setDie({id:die, count:oldCount + increment}))
