@@ -134,6 +134,8 @@ To remove a die, click the red `-` button next to the row you want to delete.
 
 This is where you can configure the widget's other buttons. So far only two are available: **Flat Modifier** and **Advantage**. For each of these you can toggel them on or off and chanage their label or icon. The label and icon properties behave exactly as they do for dice buttons.
 
+*Side note: these buttons could have been implemented as normal dice with special handling in the called macro, but developement was too far along to re-tool the macros by the time the `Args` column was added. Also needing a **Flat Modifier**, at least, is common enough in game systems that a simple checkbox to toggle it is simpler.*
+
 #### Advanced Settings
 
 Expanding this section will show additional options. These options (except for button size & radius) are likely to break things if you don't know what you are doing.
@@ -167,6 +169,9 @@ Shadowrun only uses one size die, the d6. All dice pools are composed of some nu
 *Note: to keep it simple, I have ignored initiative (which is different than a normal roll in SR) for this example configuration.*
 
 You will notice the Macro Name changed to `executeSR5Roll`. This macro treats the 'advantage' instead as a toggle to inidicate the roll is using the 'Rule of 6'. Under the hood, the dice function called is for the Rule of 6 is `sr5e()` instead of `sr5()`.
+
+![Shadowrun Roll](media/roll-sr5.png)
+![Shadowrun Roll Rule of 6](media/rol-sr5-ro6.png)
 
 #### Macro API
 
