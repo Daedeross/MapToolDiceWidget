@@ -1,6 +1,6 @@
 # MapToolDiceWidget
 
-Configurable overlay widget for MapTool for rolling dice.
+Configurable overlay widget for rolling dice in [MapTool](https://github.com/RPTools/maptool).
 
 ## Features
 
@@ -19,6 +19,14 @@ Configurable overlay widget for MapTool for rolling dice.
 Download or build (see [here](build-instructions.md)) `DiceWidget.mtlib`.
 
 In MapTool go to `File->Add On Libraries...` Click **Add** and select `DiceWidget.mtlib`.
+
+### Known Issue
+
+**IMPORTANT**: Game Hosts read this!
+
+This library stores per-user settings based on the player name (i.e. the result of the `player.getName()` MTScript function). If you are hosting a game with this addon, make sure your username is the same when loading the campaign/addon as after starting the server. You can change your default username in MapTool by going to `Edit->Preferences->Application tab`, 'Default Username' is under the **Client** heading in the right column.
+
+AFAIK, there is no static user id that can be used and no event that can be hooked into when starting a server or when a player's name changes. If you have a solution to this issue, please submit a pull request!
 
 ## How to use
 
