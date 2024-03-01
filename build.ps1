@@ -51,7 +51,7 @@ foreach ($webApp in $buildInfo.webApps) {
     }
 
     Set-Location $webApp;
-    npm install
+    npm install;
     npm run pack;
     Set-Location $cwd;
     Copy-Item -Path "$webApp/dist" -Destination "$appOut" -Recurse;

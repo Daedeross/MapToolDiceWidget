@@ -5,7 +5,7 @@
 [h: sHighIsGood = json.get(macroArgs, "highIsGood")]
 [h: highIsGood = if(sHighIsGood == "true", true, false)]
 
-[h: times = abs(advantage) + 1)]
+[h: times = abs(advantage) + 1]
 [h: takeHighest = if(advantage > 0, highIsGood, !highIsGood)]
 [h: expression = ""]
 [h, foreach(die, dice, ""), code: {
@@ -23,8 +23,8 @@
 [h: bestText = ""]
 [h: best = if(takeHighest, -2147483647, 2147483647)]
 [h, for(i, 0, times, 1, ""), code: {
-	[h: resultText = evalMacro(strformat("[%{expression}]"))]
-	[h: id = strfind(resultText, "\\x1F(-?\\d+)\\x1E")]
+    [h: resultText = evalMacro(strformat("[%{expression}]"))]
+    [h: id = strfind(resultText, "\\x1F(-?\\d+)\\x1E")]
     [h: result = number(getGroup(id, 1, 1))]
     [h: assert(isNumber(result), "invalid dice expression")]
     [h: results = json.append(results, result)]
@@ -47,8 +47,8 @@
 
 [h: allResultsText = ""]
 [h, for(i, 0, times, 1, ""), code: {
-	[h, if(i == bestIndex): text = strformat("<b>%s</b>", json.get(resultTexts, i)) ; text = strformat("<strike>%s</strike>", json.get(resultTexts, i))]
-	[h: allResultsText = allResultsText + " " + text]
+    [h, if(i == bestIndex): text = strformat("<b>%s</b>", json.get(resultTexts, i)) ; text = strformat("<strike>%s</strike>", json.get(resultTexts, i))]
+    [h: allResultsText = allResultsText + " " + text]
 }]
 
 [r: strformat("Rolls <b>%{expression}</b>%{advText} and gets: %{allResultsText}")]

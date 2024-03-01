@@ -5,6 +5,9 @@ library/public/overlay/
 library/public/dialog/
 library/public/frame/
 
+# VS-Code
+.vscode/
+
 # Logs
 logs
 *.log
