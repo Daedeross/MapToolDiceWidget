@@ -1,4 +1,5 @@
 [h: defineFunction("data.exists", "dataExists@this", true)]
+[h: defineFunction("extractResult", "extractResult@this", true)]
 
 [h: exists = data.exists("daedeross.roll", "data/global-settings.json")]
 [h, if(!exists), code: {
