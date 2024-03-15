@@ -50,4 +50,4 @@
 }]
 
 [r: strformat("Rolls <b>%{expression}</b>%{advText} and gets: %{allResultsText}")]
-[g, r: strformat("<br>('%{expression}' -> %{best}) [%{results}]"))]
+[g, r: strformat("<br>('%{expression}' -> %{best}) [%{results}]")]
