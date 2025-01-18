@@ -49,7 +49,7 @@ The expanded toolbar contains 4 different parts.
 3. Pseodo-dice buttons.
     1. Flat-Modifier button.
     2. Advantage/Disadvantage button.
-4. Cancel/close button.
+4. Cancel/close and Roll buttons.
 
 These will all be explained in more detail below.
 
@@ -73,7 +73,7 @@ While not a default option, some die buttons may have a minium increment greater
 
 ### Adding a Flat Modifier
 
-The first *pseudo*-die button is the Flat Modifier button. Show above with the default (+/-) icon. This is canned a pseudo-die button because it behaves just like an actual die button but does not represent a die, rather it is for specefying a flat modifier to be added or subtracted from the result. Like dice, left-clicking on the button will add one to modifier while right-clicking subtract one. Holding Control or Shift has the same affect as well.
+The first *pseudo*-die button is the Flat Modifier button. Show above with the default (+/-) icon. This is called a pseudo-die button because it behaves just like an actual die button but does not represent a die, rather it is for specefying a flat modifier to be added or subtracted from the result. Like dice, left-clicking on the button will add one to modifier while right-clicking subtract one. Holding Control or Shift has the same affect as well.
 
 ### Specifying Advantage/Disadvantage
 
@@ -156,6 +156,10 @@ If you want to use a custom macro, these to the name of the macro and library yo
 
 Behind the scenes, the macro is called by setting the href of a hidden `<a>` element then calling `.click()` on it. Here is the string construction to generate the uri: `macro://${macro_name}@lib:${lib_name}/${display}/impersonated`, where `${macro_name}`, `${lib_name}`, and `${display}` are replaced with the values of the Macro Name, Library Name, and Macro Ouput properties respectively.
 
+##### Extra Args
+
+This is for any additional args you want to pass to the called roll-macro. How this is formated and used is up the the macro. For the default macro (i.e. Pylyhedrals) if this is non-blank it will output a summary of the roll to the GM as well.
+
 ##### Predefined settings
 
 ![Predefined Settings](media/predefined_settings.png)
@@ -172,7 +176,7 @@ And the settings modal should now look like the following:
 
 ![Shadowrun Settings](media/settings-screen-sr5.png)
 
-Shadowrun only uses one size die, the d6. All dice pools are composed of some number of d6s, thus there is only one die button (the S-looking logo). The other button (with the 'Ro6' logo) is a the Advantage button, this has its behavior changed from the default as explained below.
+Shadowrun only uses one size of die, the d6. All dice pools are composed of some number of d6s, thus there is only one die button (the S-looking logo). The other button (with the 'Ro6' logo) is a the Advantage button, this has its behavior changed from the default as explained below.
 
 *Note: to keep it simple, I have ignored initiative (which is different than a normal roll in SR) for this example configuration.*
 
@@ -187,7 +191,7 @@ The argument passed to the [defined macro](#macro-name-and-library-name-and-outp
 
 ```js
 {
-  dice: [ // Array of dice ovjects, only dice with a non-zero count are sent.
+  dice: [ // Array of dice objects, only dice with a non-zero count are sent.
     {     // each die has the following fields:
       id: string,                     // As defined in the settings
       sides: number,                  // As defined in the settings
@@ -207,3 +211,7 @@ The argument passed to the [defined macro](#macro-name-and-library-name-and-outp
 Note about parsing the JSON: Since MapTool reads macro args from the link's query string, you need to remove the `cachelib=false ;` from `macro.args` before you can parse the JSON. The following macro line should do the trick: `[h: macroArgs = trim(decode(replace(macro.args, "cachelib=false ;", "")))]`, then just use `macroArgs` instead in your JSON parsing functions.
 
 Now you can create your own macro to do whatever you want with this information!
+
+## Contributing
+
+See [Contributing.md](Contributing.md) for information on contributing to this project.

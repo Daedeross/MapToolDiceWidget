@@ -26,41 +26,41 @@ function PseudoDieConfigTable() {
                         <td>Flat Modifier</td>
                         <td>
                             <input type="checkbox" id="showModifier" value="showModifier"
-                                   checked={modifier.show}
-                                   onChange={e => updateModifier({ ...modifier, show: !modifier.show})}/>
+                                checked={modifier.show}
+                                onChange={e => updateModifier({ ...modifier, show: !modifier.show })} />
                         </td>
                         <td>
                             <input type='text' value={defaultTo(modifier.label, '')}
-                                   className='die-row-text label'
-                                   onChange={e => updateModifier({ ...modifier, label: e.target.value})}></input>
+                                className='die-row-text label'
+                                onChange={e => updateModifier({ ...modifier, label: e.target.value })}></input>
                         </td>
                         <td>
                             <input type='search' value={defaultTo(modifier.icon, '')}
-                                   className='die-row-text'
-                                   placeholder="Custom Icon URI..."
-                                   onChange={e => updateModifier({ ...modifier, icon: isEmpty(e.target.value) ? undefined : e.target.value })} />
+                                className='die-row-text'
+                                placeholder="Custom Icon URI..."
+                                onChange={e => updateModifier({ ...modifier, icon: isEmpty(e.target.value) ? undefined : e.target.value })} />
                         </td>
                     </tr>
                     <tr title="Settings for extra button for setting levels of Advantage/Disadvantage.">
                         <td>Advantage</td>
                         <td>
                             <input type="checkbox" id="showAdvantage" value="showAdvantage"
-                                   checked={advantage.show}
-                                   onChange={e => updateAdvantage({ ...advantage, show: !advantage.show})}/>
+                                checked={advantage.show}
+                                onChange={e => updateAdvantage({ ...advantage, show: !advantage.show })} />
                         </td>
                         <td>
                             <input type='text' value={defaultTo(advantage.label, '')}
-                                   className='die-row-text label'
-                                   onChange={e => updateAdvantage({ ...advantage, label: e.target.value})}></input>
+                                className='die-row-text label'
+                                onChange={e => updateAdvantage({ ...advantage, label: e.target.value })}></input>
                         </td>
                         <td>
                             <input type='search' value={defaultTo(advantage.icon, '')}
-                                   className='die-row-text'
-                                   placeholder="Custom Icon URI..."
-                                   onChange={e => updateAdvantage({ ...advantage, icon: isEmpty(e.target.value) ? undefined : e.target.value })} />
+                                className='die-row-text'
+                                placeholder="Custom Icon URI..."
+                                onChange={e => updateAdvantage({ ...advantage, icon: isEmpty(e.target.value) ? undefined : e.target.value })} />
                         </td>
                     </tr>
-                </tbody> 
+                </tbody>
             </table>
         </div>
     )

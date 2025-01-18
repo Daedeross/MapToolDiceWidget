@@ -21,6 +21,10 @@ module.exports = {
     library: 'mtRollsJS',
     libraryTarget: 'var'
   },
+  performance: {
+    maxAssetSize: 512000,
+    maxEntrypointSize: 512000,
+  },
   module: {
     rules: [
       {

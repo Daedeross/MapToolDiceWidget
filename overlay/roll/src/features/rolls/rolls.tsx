@@ -24,7 +24,7 @@ function Rolls(): ReactElement {
     const handleRootClick = () => {
         setSelected(!selected);
         setSettingsOpen(false);
-        if(!selected) {
+        if (!selected) {
             dispatch(rollActions.clearDice());
         }
     }
@@ -36,30 +36,30 @@ function Rolls(): ReactElement {
         //dispatch(rollActions.clearDice());
     }
 
-    const buttons = 
+    const buttons =
         dice.map((id) => {
             return <DieButton die={id} key={id} />;
-    });
+        });
     // Add Modifier button
     buttons
         .push(<PseudoDieButton
-                key="mod"
-                settingSelector={settingsSelectors.modifier}
-                valueSelector={rollSelectors.selectModifier}
-                setter={rollActions.setModifier} />);
+            key="mod"
+            settingSelector={settingsSelectors.modifier}
+            valueSelector={rollSelectors.selectModifier}
+            setter={rollActions.setModifier} />);
     // Add Advantage Button
     buttons
         .push(<PseudoDieButton
-                key="adv"
-                settingSelector={settingsSelectors.advantage}
-                valueSelector={rollSelectors.selectAdvantage}
-                setter={rollActions.setAdvantage} />);
+            key="adv"
+            settingSelector={settingsSelectors.advantage}
+            valueSelector={rollSelectors.selectAdvantage}
+            setter={rollActions.setAdvantage} />);
     // Add settings button
     buttons
         .unshift(
             <div className='die-button' key='settings-button'
-                 style={{backgroundColor:'#c4cdd4'}}
-                 onClick={e => setSettingsOpen(!settingsOpen)}>
+                style={{ backgroundColor: '#c4cdd4' }}
+                onClick={e => setSettingsOpen(!settingsOpen)}>
                 <span className='die-button-icon settings-icon' />
             </div>);
 
@@ -70,25 +70,27 @@ function Rolls(): ReactElement {
     return (
         <div className='roll-overlay-container'>
             <ReactModal className='settings-modal'
-                        style={{overlay: {
-                                position: 'fixed',
-                                top: 0,
-                                left: 0,
-                                right: 0,
-                                bottom: 0,
-                                backgroundColor: 'rgba(155, 155, 155, 0.5)'
-                          }}}
-                        onRequestClose={e => setSettingsOpen(false)}
-                        shouldCloseOnOverlayClick={true}
-                        isOpen={settingsOpen}
-                        appElement={appElement ? appElement : undefined}>
+                style={{
+                    overlay: {
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        backgroundColor: 'rgba(155, 155, 155, 0.5)'
+                    }
+                }}
+                onRequestClose={e => setSettingsOpen(false)}
+                shouldCloseOnOverlayClick={true}
+                isOpen={settingsOpen}
+                appElement={appElement ? appElement : undefined}>
                 <SettingsPanel />
             </ReactModal>
             <div className='roll-toolbar'>
                 <div className={'die-button roll-toolbar-button' + (selected ? '--selected' : '')} onClick={e => handleRootClick()} >
                     <span></span>
                 </div>
-                <div className={'roll-toolbar-target-group' + (rollable && selected ? ' rollable' : '') }>
+                <div className={'roll-toolbar-target-group' + (rollable && selected ? ' rollable' : '')}>
                     <button onClick={e => handleRollClick()}>
                         <p>ROLL</p>
                     </button>

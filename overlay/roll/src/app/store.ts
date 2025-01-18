@@ -10,7 +10,7 @@ export const store = configureStore({
         settings: settingsReducer
     },
     middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().prepend(listenerMiddleware.middleware),
+        getDefaultMiddleware().prepend(listenerMiddleware.middleware),
 })
 
 export type RootState = ReturnType<typeof store.getState>

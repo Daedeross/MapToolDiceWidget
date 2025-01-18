@@ -1,6 +1,4 @@
-import { defaultTo } from "lodash";
-
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { useAppSelector } from "../../app/hooks";
 import { settingsSelectors } from "./settings-slice";
 import DieConfigRow from "./die-confg-row";
 import NewDieRow from "./new-die-row";

@@ -21,7 +21,7 @@ function App() {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        fetch(FETCH_URI, {method: 'POST' })
+        fetch(FETCH_URI, { method: 'POST' })
             .then(
                 (response) => response.json()
                     .then(dto => dispatch(settingsActions.setSettings(dto as SettingsDto))),
@@ -41,4 +41,4 @@ root.render(
     </Provider>
 );
 
-export const pushUpdate = updateSettings ;
+export const pushUpdate = updateSettings;

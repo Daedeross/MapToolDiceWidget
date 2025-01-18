@@ -4,6 +4,8 @@
 [h: advantage = json.get(macroArgs, "advantage")]
 [h: sHighIsGood = json.get(macroArgs, "highIsGood")]
 [h: highIsGood = if(sHighIsGood == "true", true, false)]
+[h: extraArgs = json.get(macroArgs, "extraArgs")]
+[h: ccGM = extraArgs != ""]
 
 [h: times = abs(advantage) + 1]
 [h: takeHighest = if(advantage > 0, highIsGood, !highIsGood)]
@@ -50,4 +52,7 @@
 }]
 
 [r: strformat("Rolls <b>%{expression}</b>%{advText} and gets: %{allResultsText}")]
-[g, r: strformat("<br>('%{expression}' -> %{best}) [%{results}]")]
+[r, if(ccGM), code: {
+    [g, r: strformat("<br>('%{expression}' -> %{best}) [%{results}]")]
+}]
+
