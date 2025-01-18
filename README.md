@@ -158,7 +158,7 @@ Behind the scenes, the macro is called by setting the href of a hidden `<a>` ele
 
 ##### Extra Args
 
-This is for any additional args you want to pass to the called roll-macro. How this is formated and used is up the the macro. For the default macro (i.e. Pylyhedrals) if this is non-blank it will output a summary of the roll to the GM as well.
+This is for any additional args you want to pass to the called roll-macro. How this is formated and used is up the the macro. For the default macro if this is non-blank it will output a summary of the roll to the GM as well.
 
 ##### Predefined settings
 
