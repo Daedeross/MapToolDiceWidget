@@ -205,7 +205,7 @@ The argument passed to the [defined macro](#macro-name-and-library-name-and-outp
   modifier: number,     // The flat modifier selected by the user (i.e. the number next to the '+/-' button)
   advantage: number,    // The level of advantage selected by the user (the 'down/up' button)
   highIsGood: boolean,  // true if "Advantage High" is checked in the settings, otherwise false
-  extraArgs: string,    // can be any string. Use this if you want extra global args to be passed to your custom roll macro.
+  extraArgs: string,    // can be any string (even a json). Use this if you want extra global args to be passed to your custom roll macro.
 }
 ```
 
