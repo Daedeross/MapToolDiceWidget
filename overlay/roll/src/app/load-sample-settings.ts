@@ -18,7 +18,7 @@ export const loadSampleSettings = createAsyncThunk(
     'settings/load-sample',
     async (arg: string | null | undefined, { dispatch }) => {
         if (!isEmpty(arg)) {
-            executeMacroLink(UPDATE_MACRO, 'none', { name: arg } , 'impersonated');
+            executeMacroLink(UPDATE_MACRO, 'none', { name: arg }, 'impersonated');
         }
     }
 )

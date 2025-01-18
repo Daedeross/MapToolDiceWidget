@@ -43,10 +43,10 @@ const PseudoDieButton: React.FC<Props> = (props) => {
         const capture = mask & buttons;
         const increment = (e.ctrlKey ? 2 : 1) * (e.shiftKey ? 5 : 1);
         if (capture & LEFT_BUTTON) {
-            dispatch(props.setter(value+increment));
+            dispatch(props.setter(value + increment));
         }
         if (capture & RIGHT_BUTTON) {
-            dispatch(props.setter(value-increment));
+            dispatch(props.setter(value - increment));
         }
         setButtons(buttons - mask);
     }
@@ -61,12 +61,12 @@ const PseudoDieButton: React.FC<Props> = (props) => {
 
     return (
         <div className='dropdown-die-button die-button'
-             style={style}
-             onMouseUp={e => onMouseUp(e)}
-             onMouseDown={e => onMouseDown(e.button)}
-             onContextMenu={e => { e.preventDefault(); return false; }}
-             >
-                {content}
+            style={style}
+            onMouseUp={e => onMouseUp(e)}
+            onMouseDown={e => onMouseDown(e.button)}
+            onContextMenu={e => { e.preventDefault(); return false; }}
+        >
+            {content}
             {value ? <div className="die-button__count">{value}</div> : undefined}
             <div className='die-button__tooltip'>
                 <div className='die-button__tooltip__pip' />

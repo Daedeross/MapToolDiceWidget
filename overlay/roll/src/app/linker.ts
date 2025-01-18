@@ -4,7 +4,7 @@ const NAKED_DIE = /(?<!\d)d/ig;
 const LINKER_ID = 'linker';
 const LIB_NAMESPACE = 'daedeross.roll';
 
-export const MacroOutputs = [ 'self', 'gm', 'all', 'none', 'gm-self', 'list' ];
+export const MacroOutputs = ['self', 'gm', 'all', 'none', 'gm-self', 'list'];
 export type MacroOutput = typeof MacroOutputs[number];
 
 export function makeMacroLink(macroName: string, display: MacroOutput, args: any, target: string, lib_name: string = LIB_NAMESPACE, cachelib = false) {
@@ -35,7 +35,7 @@ export function makeMacroLinkFromUri(macroUri: string, display: MacroOutput, arg
     else {
         stringArgs = args;
     }
-    
+
     return `${macroUri}/${display}/${(target || 'impersonated')}?${cachelib ? '' : 'cachelib=false&'}${encodeURIComponent(stringArgs)}`;
 }
 
@@ -57,7 +57,7 @@ const SIMPLE_ROLL_MACRO = 'doSimpleRoll';
 export const doSimpleRoll = (expression: string) => {
     //const args = expression.replace(NAKED_DIE, () => '1d');
     let args = expression;
-    if(startsWith(args, 'd')) {
+    if (startsWith(args, 'd')) {
         args = '1' + expression;
     }
     executeMacroLink(SIMPLE_ROLL_MACRO, 'all', args, 'impersonated');

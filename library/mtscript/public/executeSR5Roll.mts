@@ -6,7 +6,7 @@
 [h, foreach(die, dice, ""), code: {
     [h: count = json.get(die, "count")]
     [h, if(count != 0), code: {
-        [h: pool = pool + count)]
+        [h: pool = pool + count]
     }]
 }]
 

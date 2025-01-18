@@ -35,6 +35,7 @@ export interface GlobalSettingsDto {
     macro: string;
     library: string;
     macroURI?: string | null;
+    extraArgs?: string | null;
 }
 
 export interface UserSettingsDto {
@@ -45,5 +46,5 @@ export interface UserSettingsDto {
 export interface SettingsDto {
     isGM: boolean;
     user: UserSettingsDto;
-    global : GlobalSettingsDto;
+    global: GlobalSettingsDto;
 }

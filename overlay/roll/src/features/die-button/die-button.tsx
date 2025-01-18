@@ -15,7 +15,7 @@ interface Props {
     die: EntityId;
 }
 
-const POLYHEDRALS = [ 'd4', 'd6', 'd8', 'd10', 'd12', 'd20', 'd100'];
+const POLYHEDRALS = ['d4', 'd6', 'd8', 'd10', 'd12', 'd20', 'd100'];
 
 const DieButton: React.FC<Props> = ({ die }) => {
     const [buttons, setButtons] = useState(0);
@@ -46,10 +46,10 @@ const DieButton: React.FC<Props> = ({ die }) => {
         const increment = (e.ctrlKey ? 2 : 1) * (e.shiftKey ? 5 : 1) * base;
         const oldCount = defaultTo(count, 0);
         if (capture & LEFT_BUTTON) {
-            dispatch(rollActions.setDie({id:die, count:oldCount + increment}))
+            dispatch(rollActions.setDie({ id: die, count: oldCount + increment }))
         }
         if (capture & RIGHT_BUTTON) {
-            dispatch(rollActions.setDie({id:die, count:oldCount - increment}));
+            dispatch(rollActions.setDie({ id: die, count: oldCount - increment }));
         }
         setButtons(buttons - mask);
     }
@@ -58,17 +58,17 @@ const DieButton: React.FC<Props> = ({ die }) => {
     if (POLYHEDRALS.includes(die.toString())) {
         className += `dice-icon-die--${die}`;
     }
-    
+
     const content = isEmpty(config?.icon)
         ? <span>{defaultTo(config?.label, config?.id)}</span>
         : <img src={config?.icon} />
 
     return (
         <div className='dropdown-die-button die-button' data-dice={die}
-             onMouseUp={e => onMouseUp(e)}
-             onMouseDown={e => onMouseDown(e.button)}
-             onContextMenu={e => { e.preventDefault(); return false; }}
-             >
+            onMouseUp={e => onMouseUp(e)}
+            onMouseDown={e => onMouseDown(e.button)}
+            onContextMenu={e => { e.preventDefault(); return false; }}
+        >
             {content}
             {count ? <div className="die-button__count">{count}</div> : undefined}
             <div className='die-button__tooltip'>

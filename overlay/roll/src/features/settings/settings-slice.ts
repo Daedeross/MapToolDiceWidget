@@ -36,6 +36,7 @@ export interface SettingsState {
     library: string;
     macroURI?: string | null;
     macroOutput: MacroOutput;
+    extraArgs?: string;
 }
 
 export const dieConfigAdapter = createEntityAdapter<DieConfig>();
@@ -48,11 +49,11 @@ const initialState: SettingsState = {
         radius: 25
     },
     highIsGood: true,
-    modifier : {
+    modifier: {
         label: "+/-",
         show: true
     },
-    advantage : {
+    advantage: {
         label: "Adv.",
         show: true
     },
@@ -80,7 +81,12 @@ export const settingsSlice = createSlice({
             dieConfigAdapter.setAll(state.availableDice, action.payload.global.availableDice);
             state.macro = action.payload.global.macro;
             state.library = action.payload.global.library;
-            state.macroURI = action.payload.global.macroURI;            
+            state.macroURI = action.payload.global.macroURI;
+            if (isNil(action.payload.global.extraArgs)) {
+                delete state.extraArgs;
+            } else {
+                state.extraArgs = action.payload.global.extraArgs;
+            }
             setCssVariables(state.position, state.buttonProperties);
         },
         setPosition: (state: SettingsState, action: PayloadAction<Position>) => {
@@ -124,6 +130,13 @@ export const settingsSlice = createSlice({
         removeConfig: (state: SettingsState, action: PayloadAction<EntityId>) => {
             dieConfigAdapter.removeOne(state.availableDice, action.payload);
         },
+        setExtraArgs: (state: SettingsState, action: PayloadAction<string>) => {
+            if (isNil(action.payload)) {
+                delete state.extraArgs;
+            } else {
+                state.extraArgs = action.payload;
+            }
+        }
     }
 });
 
@@ -146,7 +159,7 @@ function setCssVariables(position: Position, buttonProperties: ButtonProperties)
             break;
         case Position.TopRight:
             setStyleVariable('--toolbar-left', INITIAL);
-            setStyleVariable('--toolbar-right', TOOLBAR_MARGIN );
+            setStyleVariable('--toolbar-right', TOOLBAR_MARGIN);
             setStyleVariable('--toolbar-top', TOOLBAR_MARGIN);
             setStyleVariable('--toolbar-bottom', INITIAL);
 
@@ -189,14 +202,15 @@ export function extractDto(state: SettingsState): SettingsDto {
             position: state.position,
             buttonProperties: state.buttonProperties,
         },
-        global : {
+        global: {
             advantage: state.advantage,
             highIsGood: state.highIsGood,
             modifier: state.modifier,
             macro: state.macro,
             library: state.library,
             macroURI: state.macroURI,
-            availableDice: filter(Object.values(state.availableDice.entities), obj => !isNil(obj)) as DieConfig[]
+            availableDice: filter(Object.values(state.availableDice.entities), obj => !isNil(obj)) as DieConfig[],
+            extraArgs: state.extraArgs,
         }
     }
 }
@@ -217,7 +231,8 @@ export const settingsSelectors = {
     macroName: (state: RootState) => state.settings.macro,
     libraryName: (state: RootState) => state.settings.library,
     macroOutput: (state: RootState) => state.settings.macroOutput,
-    buttonProperties: (state: RootState) => state.settings.buttonProperties
+    buttonProperties: (state: RootState) => state.settings.buttonProperties,
+    extraArgs: (state: RootState) => state.settings.extraArgs,
 }
 
 export default settingsSlice.reducer;

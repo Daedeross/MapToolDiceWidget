@@ -14,6 +14,7 @@ export interface RollArgs {
     modifier: number;
     advantage: number;
     highIsGood: boolean;
+    extraArgs?: string;
 }
 
 export const executeRoll = createAsyncThunk<void, void, { state: RootState }>(
@@ -38,6 +39,7 @@ export const executeRoll = createAsyncThunk<void, void, { state: RootState }>(
             modifier: state.roll.modifier,
             advantage: state.roll.advantage,
             highIsGood: state.settings.highIsGood,
+            extraArgs: state.settings.extraArgs,
         }
 
         const uri = state.settings.macroURI

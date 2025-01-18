@@ -13,17 +13,17 @@ const USER_MACRO = 'updateUserSettings';
 export const isStateChanged = (action: Action, currentState: RootState, previousState: RootState) => !isEqual(currentState, previousState);
 export const isSettingsChanged = (action: Action, currentState: RootState, previousState: RootState) => {
     return action.type.startsWith(settingsSlice.name)
-            && !isEqual(currentState.settings, previousState.settings);
+        && !isEqual(currentState.settings, previousState.settings);
 }
 
-export const pushChangesToMapTool = (action: Action, listenerApi: ListenerEffectAPI<RootState, Dispatch> ) => {
+export const pushChangesToMapTool = (action: Action, listenerApi: ListenerEffectAPI<RootState, Dispatch>) => {
     const lastState = listenerApi.getOriginalState();
     const newState = listenerApi.getState();
     const lastDto = extractDto(lastState.settings);
     const newDto = extractDto(newState.settings);
 
     pushUserSettings(lastDto.user, newDto.user);
-    if(lastDto.isGM) {
+    if (lastDto.isGM) {
         pushGlobalSettings(lastDto.global, newDto.global);
     }
 };
@@ -42,6 +42,6 @@ const pushGlobalSettings = (lastDto: GlobalSettingsDto, newDto: GlobalSettingsDt
     if (isEmpty(diff)) {
         return;
     }
-    
+
     executeMacroLink(GLOBAL_MACRO, 'none', newDto, 'impersonated');
 }

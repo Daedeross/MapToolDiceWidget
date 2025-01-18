@@ -36,10 +36,10 @@ export const dieExpression = (value: any, index: any) => {
 export const constructExpression = (state: RollState): string => {
     const dice = reduce(state.dice, (acc, value, index) => acc + dieExpression(value, index), '');
     const modifier = state.modifier > 0
-                     ? `+${state.modifier}`
-                     : state.modifier < 0 
-                        ? `${state.modifier}`
-                        : '';
+        ? `+${state.modifier}`
+        : state.modifier < 0
+            ? `${state.modifier}`
+            : '';
     // TODO: Advantage;
     return dice + modifier;
 }
@@ -104,7 +104,7 @@ export const selectRoll = (state: RootState) => {
 
 export const rollSelectors = {
     ...adapter_selectors,
-    dieSelectorById: (id: EntityId) => (state:RootState) => adapter_selectors.selectById(state, id),
+    dieSelectorById: (id: EntityId) => (state: RootState) => adapter_selectors.selectById(state, id),
     selectModifier: (state: RootState) => selectRoll(state).modifier,
     selectAdvantage: (state: RootState) => selectRoll(state).advantage,
     selectIsAnyDice: (state: RootState) => selectRoll(state).dice.ids.length > 0,
